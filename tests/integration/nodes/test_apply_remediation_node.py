@@ -1,5 +1,6 @@
 """Integration tests for apply_remediation_node."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,redefined-outer-name,unused-argument,too-few-public-methods
 from __future__ import annotations
 
 from unittest.mock import patch

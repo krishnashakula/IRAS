@@ -4,6 +4,7 @@ Returns current value, 7-day baseline, and deviation percentage for each
 requested metric. Flags metrics deviating more than two standard deviations.
 """
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,too-few-public-methods,broad-exception-caught,too-many-locals,import-outside-toplevel
 from __future__ import annotations
 
 import logging

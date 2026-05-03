@@ -1,5 +1,6 @@
 """Integration tests for the RCA node."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,unused-argument,redefined-outer-name,reimported,import-outside-toplevel,too-few-public-methods
 from __future__ import annotations
 
 import json

@@ -1,5 +1,6 @@
 """Shared pytest fixtures for IRAS tests."""
-# pylint: disable=redefined-outer-name
+
+# pylint: disable=redefined-outer-name,wrong-import-position
 from __future__ import annotations
 
 import asyncio
@@ -16,9 +17,9 @@ load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env", override=False)
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-import pytest
+import pytest  # noqa: E402
 
-from iras.agents.deps import (
+from iras.agents.deps import (  # noqa: E402
     ApprovalDeps,
     ContextDeps,
     EscalationDeps,
@@ -27,8 +28,8 @@ from iras.agents.deps import (
     RemediationDeps,
     TriageDeps,
 )
-from iras.graph.state import IncidentState
-from iras.models.incident import (
+from iras.graph.state import IncidentState  # noqa: E402
+from iras.models.incident import (  # noqa: E402
     ContextBundle,
     LogEvidence,
     MetricAnomaly,
@@ -38,11 +39,11 @@ from iras.models.incident import (
     RootCauseHypothesis,
     TriageResult,
 )
-from iras.tools.deployment import DeploymentEvent, MockDeploymentClient
-from iras.tools.log_fetcher import MockLogFetcher, RawLogLine
-from iras.tools.metrics import MetricResult, MockMetricsClient
-from iras.tools.pagerduty import MockPagerDutyClient
-from iras.tools.slack import MockSlackClient
+from iras.tools.deployment import DeploymentEvent, MockDeploymentClient  # noqa: E402
+from iras.tools.log_fetcher import MockLogFetcher, RawLogLine  # noqa: E402
+from iras.tools.metrics import MetricResult, MockMetricsClient  # noqa: E402
+from iras.tools.pagerduty import MockPagerDutyClient  # noqa: E402
+from iras.tools.slack import MockSlackClient  # noqa: E402
 
 # ── Alert payloads ─────────────────────────────────────────────────────────────
 
@@ -172,7 +173,9 @@ def high_confidence_hypothesis() -> RootCauseHypothesis:
             )
         ],
         confidence=0.88,
-        recommended_action="Increase connection pool size from 10 to 50 and restart payment-service",
+        recommended_action=(
+            "Increase connection pool size from 10 to 50 and restart payment-service"
+        ),
         alternative_hypotheses=["Network partition between payment-service and postgres-primary"],
     )
 
@@ -286,15 +289,15 @@ def mock_log_fetcher() -> MockLogFetcher:
 def mock_metrics_client() -> MockMetricsClient:
     """Return a MockMetricsClient pre-seeded with an http_error_rate anomaly."""
     return MockMetricsClient(
-        responses={
-            "http_error_rate": MetricResult(
+        responses=[
+            MetricResult(
                 metric_name="http_error_rate",
                 current_value=0.45,
                 baseline_value=0.01,
                 deviation_percentage=4400.0,
                 is_anomalous=True,
             )
-        }
+        ]
     )
 
 

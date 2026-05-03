@@ -23,7 +23,7 @@ from typing import Any
 from pydantic_ai import Agent
 from pydantic_ai.models.anthropic import AnthropicModel
 
-from iras.agents.deps import RCADeps as RCADeps
+from iras.agents.deps import RCADeps
 from iras.models.incident import RootCauseHypothesis
 
 _SYSTEM_PROMPT = """\

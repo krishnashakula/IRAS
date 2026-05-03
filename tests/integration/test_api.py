@@ -1,5 +1,6 @@
 """Integration tests for the FastAPI application routes."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,redefined-outer-name,reimported,import-outside-toplevel,too-few-public-methods,unused-variable,unused-argument
 from __future__ import annotations
 
 import asyncio
@@ -104,6 +105,49 @@ class TestWebhookRoute:
             )
         assert resp.status_code == 202
 
+    async def test_receive_alert_missing_signature_returns_401(self):
+        """Covers webhook.py lines 78-83: secret set but no X-IRAS-Signature header."""
+        mock_webhook_secret = MagicMock()
+        mock_webhook_secret.get_secret_value.return_value = "test-webhook-secret"
+        mock_settings = MagicMock()
+        mock_settings.webhook_secret = mock_webhook_secret
+
+        app = create_app()
+        app.state.graph = AsyncMock()
+
+        with patch("iras.config.settings.get_settings", return_value=mock_settings):
+            async with AsyncClient(
+                transport=ASGITransport(app=app), base_url="http://test"
+            ) as client:
+                resp = await client.post(
+                    "/webhook/alert",
+                    json={"title": "Alert", "timestamp": "2024-01-15T10:00:00Z"},
+                )
+        assert resp.status_code == 401
+        assert "Missing X-IRAS-Signature" in resp.text
+
+    async def test_receive_alert_invalid_signature_returns_401(self):
+        """Covers webhook.py lines 88-89: secret set and signature present but wrong."""
+        mock_webhook_secret = MagicMock()
+        mock_webhook_secret.get_secret_value.return_value = "test-webhook-secret"
+        mock_settings = MagicMock()
+        mock_settings.webhook_secret = mock_webhook_secret
+
+        app = create_app()
+        app.state.graph = AsyncMock()
+
+        with patch("iras.config.settings.get_settings", return_value=mock_settings):
+            async with AsyncClient(
+                transport=ASGITransport(app=app), base_url="http://test"
+            ) as client:
+                resp = await client.post(
+                    "/webhook/alert",
+                    json={"title": "Alert", "timestamp": "2024-01-15T10:00:00Z"},
+                    headers={"X-IRAS-Signature": "sha256=invalidsignature"},
+                )
+        assert resp.status_code == 401
+        assert "Invalid webhook signature" in resp.text
+
 
 class TestApprovalRoute:
     @pytest.fixture
@@ -168,6 +212,45 @@ class TestApprovalRoute:
             ) as client:
                 resp = await client.post("/incidents/INC-001/reject")
         assert resp.status_code == 500
+
+    async def test_approve_no_auth_header_with_api_key_returns_401(self):
+        """Covers approval.py lines 58-59: credentials is None when api key required."""
+        mock_api_key = MagicMock()
+        mock_api_key.get_secret_value.return_value = "correct-key"
+        mock_settings = MagicMock()
+        mock_settings.approval_api_key = mock_api_key
+
+        app = create_app()
+        app.state.graph = AsyncMock()
+
+        with patch("iras.config.settings.get_settings", return_value=mock_settings):
+            async with AsyncClient(
+                transport=ASGITransport(app=app), base_url="http://test"
+            ) as client:
+                resp = await client.post("/incidents/INC-001/approve")
+        assert resp.status_code == 401
+        assert "Missing Authorization header" in resp.text
+
+    async def test_approve_wrong_auth_token_returns_401(self):
+        """Covers approval.py lines 64-68: hmac compare fails when wrong token."""
+        mock_api_key = MagicMock()
+        mock_api_key.get_secret_value.return_value = "correct-key"
+        mock_settings = MagicMock()
+        mock_settings.approval_api_key = mock_api_key
+
+        app = create_app()
+        app.state.graph = AsyncMock()
+
+        with patch("iras.config.settings.get_settings", return_value=mock_settings):
+            async with AsyncClient(
+                transport=ASGITransport(app=app), base_url="http://test"
+            ) as client:
+                resp = await client.post(
+                    "/incidents/INC-001/approve",
+                    headers={"Authorization": "Bearer wrong-token"},
+                )
+        assert resp.status_code == 401
+        assert "Invalid API key" in resp.text
 
 
 class TestUpdateApprovalStatus:
@@ -275,7 +358,10 @@ class TestAppLifespan:
         mock_settings.log_level = "INFO"
         mock_settings.langsmith_api_key = ""
         mock_settings.logfire_token = ""
-        mock_settings.postgres_url = "postgresql://localhost/test"
+        # Use a mock with get_secret_value() so settings.postgres_url.get_secret_value() works
+        mock_postgres_url = MagicMock()
+        mock_postgres_url.get_secret_value.return_value = "postgresql://localhost/test"
+        mock_settings.postgres_url = mock_postgres_url
 
         mock_checkpointer = MagicMock()
 
@@ -295,6 +381,28 @@ class TestAppLifespan:
             with TestClient(create_app()) as client:
                 resp = client.get("/health")
         assert resp.status_code == 200
+
+    def test_lifespan_logfire_success(self):
+        """Covers app.py lines 58-60: logfire_token set and configure/instrument succeed."""
+        mock_settings = MagicMock()
+        mock_settings.app_env = "test"
+        mock_settings.log_level = "INFO"
+        mock_settings.langsmith_api_key = ""
+        mock_settings.logfire_token = "lf-test-token"
+        mock_settings.postgres_url = ""
+
+        mock_logfire = MagicMock()
+
+        with (
+            patch("iras.config.settings.get_settings", return_value=mock_settings),
+            patch("iras.graph.builder.build_graph", return_value=MagicMock()),
+            patch.dict("sys.modules", {"logfire": mock_logfire}),
+        ):
+            with TestClient(create_app()) as client:
+                resp = client.get("/health")
+        assert resp.status_code == 200
+        mock_logfire.configure.assert_called_once_with(token="lf-test-token")
+        mock_logfire.instrument_pydantic_ai.assert_called_once()
 
 
 class TestUpdateApprovalStatusWithPostgres:
@@ -353,7 +461,9 @@ class TestRunGraphBackground:
 
         mock_graph = AsyncMock()
         mock_graph.ainvoke = AsyncMock(return_value={})
-        await _run_graph_background(mock_graph, "test-id-001", {"title": "Test", "timestamp": "now"})
+        await _run_graph_background(
+            mock_graph, "test-id-001", {"title": "Test", "timestamp": "now"}
+        )
         mock_graph.ainvoke.assert_called_once()
 
     async def test_run_graph_background_handles_exception(self):
@@ -363,4 +473,6 @@ class TestRunGraphBackground:
         mock_graph = AsyncMock()
         mock_graph.ainvoke = AsyncMock(side_effect=RuntimeError("graph crashed"))
         # Should not raise
-        await _run_graph_background(mock_graph, "test-id-002", {"title": "Test", "timestamp": "now"})
+        await _run_graph_background(
+            mock_graph, "test-id-002", {"title": "Test", "timestamp": "now"}
+        )

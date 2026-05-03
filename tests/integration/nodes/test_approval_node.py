@@ -1,5 +1,6 @@
 """Integration tests for approval_node and route_after_approval."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,redefined-outer-name
 from __future__ import annotations
 
 from unittest.mock import patch
@@ -51,8 +52,8 @@ class TestApprovalNode:
             with pytest.raises(NodeInterrupt):
                 approval_node(approval_state)
 
-        assert interrupt_value["incident_id"] == approval_state["incident_id"]
-        assert interrupt_value["type"] == "approval_required"
+        assert interrupt_value["incident_id"] == approval_state["incident_id"]  # pylint: disable=unsubscriptable-object
+        assert interrupt_value["type"] == "approval_required"  # pylint: disable=unsubscriptable-object
 
     def test_resume_with_approved_true(self, approval_state):
         """When interrupt() returns approved=True, human_approved should be True."""

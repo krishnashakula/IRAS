@@ -1,5 +1,6 @@
 """Tests for background task and approval monitoring."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring
 from __future__ import annotations
 
 import asyncio
@@ -174,5 +175,25 @@ class TestMonitorApprovalTimeouts:
                         await task
                     except asyncio.CancelledError:
                         pass
+        finally:
+            os.environ.pop("POSTGRES_URL", None)
+
+    async def test_monitor_cancelled_error_inside_try_block(self):
+        """Covers lines 105-106: CancelledError raised inside the try block is caught and
+        causes the monitor to return cleanly (not re-raise)."""
+        mock_graph = AsyncMock()
+
+        os.environ["POSTGRES_URL"] = "postgresql://test"
+        try:
+            with patch(
+                "psycopg.AsyncConnection.connect",
+                AsyncMock(side_effect=asyncio.CancelledError()),
+            ):
+                with patch("iras.api.background._POLL_INTERVAL_SECONDS", 0):
+                    task = asyncio.create_task(monitor_approval_timeouts(mock_graph))
+                    for _ in range(5):
+                        await asyncio.sleep(0)
+                    # Task should have returned cleanly (CancelledError was swallowed)
+                    await asyncio.wait_for(task, timeout=1.0)
         finally:
             os.environ.pop("POSTGRES_URL", None)

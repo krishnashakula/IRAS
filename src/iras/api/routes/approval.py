@@ -13,13 +13,13 @@ Optional Bearer-token authentication:
   Leave APPROVAL_API_KEY unset to disable auth (development only).
 """
 
+# pylint: disable=import-outside-toplevel
 from __future__ import annotations
 
+import hmac
 import logging
 import os
-from typing import Any
-
-import hmac
+from typing import Any  # noqa: I001
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 
 class ApprovalResponse(BaseModel):
     """Response body returned after an approve or reject action."""
+
     incident_id: str
     decision: str
     status: str

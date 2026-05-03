@@ -10,6 +10,7 @@ the same incident_id) and sends a structured Slack message with all available
 context. Routes unconditionally to the post-mortem node.
 """
 
+# pylint: disable=too-many-locals
 from __future__ import annotations
 
 import logging

@@ -26,7 +26,7 @@ from typing import Any
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.anthropic import AnthropicModel
 
-from iras.agents.deps import ContextDeps as ContextDeps
+from iras.agents.deps import ContextDeps
 from iras.models.incident import ContextBundle
 
 _SYSTEM_PROMPT = """\

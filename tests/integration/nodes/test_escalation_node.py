@@ -1,5 +1,6 @@
 """Integration tests for the escalation node."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,redefined-outer-name
 from __future__ import annotations
 
 import pytest

@@ -1,5 +1,6 @@
 """Integration tests for the postmortem node."""
-# pylint: disable=redefined-outer-name
+
+# pylint: disable=redefined-outer-name,import-outside-toplevel,reimported
 from __future__ import annotations
 
 import json
@@ -19,6 +20,7 @@ from iras.tools.slack import MockSlackClient
 
 def make_postmortem_fn(incident_id: str = "test-001"):
     """Return a FunctionModel callback that produces a canned PostMortem response."""
+
     def fn(_messages: list[ModelMessage], _info: AgentInfo) -> ModelResponse:
         payload = {
             "incident_id": incident_id,
@@ -50,6 +52,7 @@ def postmortem_state(base_incident_state) -> IncidentState:
 
 class TestPostMortemNode:
     """Integration tests for the postmortem_node graph node."""
+
     async def test_writes_post_mortem_to_state(self, postmortem_state: IncidentState):
         """Node must populate the post_mortem key in its output dict."""
         mock_slack = MockSlackClient()
@@ -159,6 +162,29 @@ class TestPostMortemNode:
         # B2 fix: state's incident_id overrides whatever the model returned
         # postmortem_state fixture has incident_id="test-incident-001"
         assert call_args[0][0]["incident_id"] == "test-incident-001"
+
+    async def test_persist_postmortem_skips_when_no_postgres_url(self):
+        """Covers postmortem.py lines 62-63: early return when POSTGRES_URL not set."""
+        import os
+
+        from iras.graph.nodes.postmortem import _persist_postmortem
+
+        pm_dict = {
+            "incident_id": "test-001",
+            "severity": "P1",
+            "root_cause_summary": "summary",
+            "resolution_summary": "resolution",
+            "timeline": [],
+            "action_items": [],
+            "total_duration_minutes": 0,
+        }
+        old = os.environ.pop("POSTGRES_URL", None)
+        try:
+            # Should return early without connecting to DB (no exception)
+            await _persist_postmortem(pm_dict, {})
+        finally:
+            if old:
+                os.environ["POSTGRES_URL"] = old
 
     async def test_persist_postmortem_with_postgres_url(self):
         """Covers _persist_postmortem lines 58-85 when POSTGRES_URL is set."""

@@ -7,6 +7,7 @@ Used by:
 All approval follow-up messages are threaded to the original notification.
 """
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,import-outside-toplevel,broad-exception-caught,too-many-arguments,too-many-positional-arguments
 from __future__ import annotations
 
 import logging

@@ -1,5 +1,6 @@
 """Tests for iras.graph.builder — build_graph function."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring
 from __future__ import annotations
 
 from langgraph.checkpoint.memory import MemorySaver

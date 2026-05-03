@@ -1,5 +1,6 @@
 """Unit tests for the context-gathering agent."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,unused-argument,redefined-outer-name,reimported,import-outside-toplevel,too-few-public-methods
 from __future__ import annotations
 
 import json
@@ -209,7 +210,7 @@ class TestContextGatheringToolBodies:
                         )
                     ]
                 )
-            elif call_count[0] == 2:
+            if call_count[0] == 2:
                 return ModelResponse(
                     parts=[
                         ToolCallPart(
@@ -225,7 +226,7 @@ class TestContextGatheringToolBodies:
                         )
                     ]
                 )
-            elif call_count[0] == 3:
+            if call_count[0] == 3:
                 return ModelResponse(
                     parts=[
                         ToolCallPart(
@@ -240,8 +241,7 @@ class TestContextGatheringToolBodies:
                         )
                     ]
                 )
-            else:
-                return _make_context_response()
+            return _make_context_response()
 
         with context_agent.override(model=FunctionModel(tool_calling_model)):
             result = await run_context_gathering(alert_payload, triage_dict, deps=context_deps)

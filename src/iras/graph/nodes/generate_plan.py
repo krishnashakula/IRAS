@@ -12,6 +12,7 @@ human responds.
 Routes unconditionally to the approval_node.
 """
 
+# pylint: disable=too-many-locals,import-outside-toplevel
 from __future__ import annotations
 
 import logging
@@ -20,8 +21,8 @@ from typing import Any
 
 from pydantic_ai.exceptions import UnexpectedModelBehavior
 
-from iras.agents.deps import ApprovalDeps
-from iras.agents.remediation import RemediationDeps, run_remediation_planning
+from iras.agents.deps import ApprovalDeps, RemediationDeps
+from iras.agents.remediation import run_remediation_planning
 from iras.graph.state import IncidentState
 from iras.tools.slack import SlackMessage
 

@@ -1,5 +1,6 @@
 """E2E tests — happy path (triage → RCA → plan → approve → remediate → postmortem)."""
 
+# pylint: disable=unused-argument,missing-class-docstring,missing-function-docstring,import-outside-toplevel
 from __future__ import annotations
 
 import contextlib
@@ -106,7 +107,9 @@ def _remediation_model(messages: list[ModelMessage], info: AgentInfo) -> ModelRe
                         "steps": [
                             {
                                 "action": "Increase DB connection pool from 10 to 50",
-                                "rollback_command": "kubectl set env deployment/app DB_POOL_SIZE=10",
+                                "rollback_command": (
+                                    "kubectl set env deployment/app DB_POOL_SIZE=10"
+                                ),
                                 "risk_level": "low",
                                 "estimated_duration_seconds": 30,
                             }

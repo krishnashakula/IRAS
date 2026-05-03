@@ -1,5 +1,6 @@
 """Unit tests for iras.tools.log_fetcher."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,protected-access
 from __future__ import annotations
 
 import httpx
@@ -23,7 +24,7 @@ class TestRawLogLine:
             level="ERROR",
             service="api",
         )
-        assert line.extra == {}
+        assert not line.extra
         assert line.service == "api"
 
     def test_create_with_extra(self):

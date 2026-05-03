@@ -16,6 +16,7 @@ The endpoint:
   4. Returns the incident_id immediately so the caller can poll or subscribe
 """
 
+# pylint: disable=import-outside-toplevel
 from __future__ import annotations
 
 import hashlib
@@ -42,6 +43,7 @@ class AlertWebhookPayload(BaseModel):
 
 class WebhookResponse(BaseModel):
     """Response body returned immediately after an alert is accepted for processing."""
+
     incident_id: str
     status: str = "processing"
 
@@ -90,9 +92,7 @@ async def _verify_webhook_signature(
         )
 
 
-async def _run_graph_background(
-    graph: Any, incident_id: str, payload: dict[str, Any]
-) -> None:
+async def _run_graph_background(graph: Any, incident_id: str, payload: dict[str, Any]) -> None:
     """Run the graph for an alert payload in the background.
 
     Uses the pre-generated incident_id as both the LangGraph thread_id and the

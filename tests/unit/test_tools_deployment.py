@@ -1,5 +1,6 @@
 """Unit tests for iras.tools.deployment — MockDeploymentClient and domain types."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,import-outside-toplevel,protected-access
 from __future__ import annotations
 
 from datetime import UTC
@@ -93,9 +94,7 @@ class TestGitHubDeploymentClient:
     async def test_fetch_deployments_success(self):
         from datetime import datetime, timedelta
 
-        recent = (
-            (datetime.now(tz=UTC) - timedelta(hours=1)).isoformat().replace("+00:00", "Z")
-        )
+        recent = (datetime.now(tz=UTC) - timedelta(hours=1)).isoformat().replace("+00:00", "Z")
 
         respx.get("https://api.github.com/repos/myorg/api/deployments").mock(
             return_value=httpx.Response(
@@ -199,9 +198,7 @@ class TestGitHubDeploymentClient:
         """Even when commit detail fetch fails, deployment event is still added."""
         from datetime import datetime, timedelta
 
-        recent = (
-            (datetime.now(tz=UTC) - timedelta(hours=1)).isoformat().replace("+00:00", "Z")
-        )
+        recent = (datetime.now(tz=UTC) - timedelta(hours=1)).isoformat().replace("+00:00", "Z")
 
         respx.get("https://api.github.com/repos/myorg/api/deployments").mock(
             return_value=httpx.Response(
@@ -234,9 +231,7 @@ class TestGitHubDeploymentClient:
         """Covers lines 108-109 — exception during commit fetch is silently ignored."""
         from datetime import datetime, timedelta
 
-        recent = (
-            (datetime.now(tz=UTC) - timedelta(hours=1)).isoformat().replace("+00:00", "Z")
-        )
+        recent = (datetime.now(tz=UTC) - timedelta(hours=1)).isoformat().replace("+00:00", "Z")
 
         respx.get("https://api.github.com/repos/myorg/api/deployments").mock(
             return_value=httpx.Response(

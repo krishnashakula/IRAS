@@ -1,5 +1,6 @@
 """Unit tests for iras.tools.metrics."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,too-few-public-methods,protected-access
 from __future__ import annotations
 
 import httpx

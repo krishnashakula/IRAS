@@ -1,5 +1,6 @@
 """Tests for iras.graph.checkpointer module."""
 
+# pylint: disable=missing-class-docstring,import-outside-toplevel,protected-access
 from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -27,8 +28,14 @@ class TestGetCheckpointer:
         mock_conn.commit = AsyncMock()
 
         with (
-            patch("iras.graph.checkpointer.AsyncConnectionPool", return_value=mock_pool) as mock_pool_cls,
-            patch("iras.graph.checkpointer.AsyncPostgresSaver", return_value=mock_checkpointer) as mock_saver_cls,
+            patch(
+                "iras.graph.checkpointer.AsyncConnectionPool",
+                return_value=mock_pool,
+            ) as mock_pool_cls,
+            patch(
+                "iras.graph.checkpointer.AsyncPostgresSaver",
+                return_value=mock_checkpointer,
+            ) as mock_saver_cls,
             patch("psycopg.AsyncConnection.connect", AsyncMock(return_value=mock_conn)),
         ):
             import iras.graph.checkpointer as chk_module
@@ -56,6 +63,46 @@ class TestGetCheckpointer:
             assert result is mock_checkpointer
         finally:
             chk_module._checkpointer = original
+
+    async def test_get_checkpointer_inner_lock_early_return(self):
+        """Covers line 84: double-checked locking return inside async with _init_lock.
+
+        Simulates a second concurrent caller that acquires the lock after the first
+        caller has already set _checkpointer, so it returns the cached instance.
+        """
+        import asyncio
+
+        import iras.graph.checkpointer as chk_module
+
+        mock_checkpointer = MagicMock()
+        lock = asyncio.Lock()
+
+        original = chk_module._checkpointer
+        original_lock = chk_module._init_lock
+        try:
+            # Use a real lock but hold it so the task will wait at "async with _init_lock"
+            chk_module._init_lock = lock
+            chk_module._checkpointer = None
+
+            await lock.acquire()
+
+            # Schedule get_checkpointer — it will pass the outer check (None) then block on lock
+            task = asyncio.create_task(chk_module.get_checkpointer("postgresql://test"))
+
+            # Yield so the task runs until it waits for the lock
+            await asyncio.sleep(0)
+
+            # While task is blocked, set _checkpointer to a value
+            chk_module._checkpointer = mock_checkpointer
+
+            # Release the lock: task acquires it, inner check finds _checkpointer != None → line 84
+            lock.release()
+
+            result = await task
+            assert result is mock_checkpointer
+        finally:
+            chk_module._checkpointer = original
+            chk_module._init_lock = original_lock
 
 
 class TestCloseCheckpointer:

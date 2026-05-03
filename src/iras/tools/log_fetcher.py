@@ -4,6 +4,7 @@ Supports two real backends (Elasticsearch, Loki) and one mock backend for
 testing. All backends implement the LogFetcherProtocol so they are swappable
 without changing agent logic.
 """
+# pylint: disable=missing-class-docstring,missing-function-docstring,broad-exception-caught,import-outside-toplevel,too-many-locals
 
 from __future__ import annotations
 

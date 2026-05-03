@@ -1,5 +1,6 @@
 """Unit tests for iras.tools.slack — MockSlackClient and SlackClient helpers."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,import-outside-toplevel
 from __future__ import annotations
 
 from iras.tools.slack import (
@@ -76,7 +77,7 @@ class TestSlackClientRealClient:
         mock_web_client.chat_postMessage = AsyncMock(return_value=mock_response)
 
         fake_module = types.ModuleType("slack_sdk.web.async_client")
-        fake_module.AsyncWebClient = MagicMock(return_value=mock_web_client)
+        setattr(fake_module, "AsyncWebClient", MagicMock(return_value=mock_web_client))
 
         with patch.dict("sys.modules", {"slack_sdk.web.async_client": fake_module}):
             client = SlackClient("xoxb-test-token")
@@ -97,7 +98,7 @@ class TestSlackClientRealClient:
         mock_web_client.chat_postMessage = AsyncMock(return_value=mock_response)
 
         fake_module = types.ModuleType("slack_sdk.web.async_client")
-        fake_module.AsyncWebClient = MagicMock(return_value=mock_web_client)
+        setattr(fake_module, "AsyncWebClient", MagicMock(return_value=mock_web_client))
 
         with patch.dict("sys.modules", {"slack_sdk.web.async_client": fake_module}):
             client = SlackClient("xoxb-test-token")
@@ -124,7 +125,7 @@ class TestSlackClientRealClient:
         mock_web_client.chat_postMessage = AsyncMock(side_effect=RuntimeError("Slack API error"))
 
         fake_module = types.ModuleType("slack_sdk.web.async_client")
-        fake_module.AsyncWebClient = MagicMock(return_value=mock_web_client)
+        setattr(fake_module, "AsyncWebClient", MagicMock(return_value=mock_web_client))
 
         with patch.dict("sys.modules", {"slack_sdk.web.async_client": fake_module}):
             client = SlackClient("xoxb-test-token")

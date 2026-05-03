@@ -9,10 +9,12 @@ Side-effects on first init:
   2. Creates the IRAS-specific tables (postmortems, pending_approvals)
 """
 
+# pylint: disable=import-outside-toplevel
 from __future__ import annotations
 
 import asyncio
 import logging
+from typing import Any
 
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from psycopg_pool import AsyncConnectionPool
@@ -20,7 +22,7 @@ from psycopg_pool import AsyncConnectionPool
 logger = logging.getLogger(__name__)
 
 _checkpointer: AsyncPostgresSaver | None = None  # pylint: disable=invalid-name
-_pool: AsyncConnectionPool | None = None  # pylint: disable=invalid-name
+_pool: AsyncConnectionPool[Any] | None = None  # pylint: disable=invalid-name
 _init_lock: asyncio.Lock | None = None  # pylint: disable=invalid-name
 
 # ── IRAS-specific DDL ─────────────────────────────────────────────────────────
@@ -104,9 +106,9 @@ async def get_checkpointer(conn_string: str) -> AsyncPostgresSaver:
 
         global _pool  # pylint: disable=global-statement
         _pool = pool
-        _checkpointer = checkpointer  # type: ignore[assignment]
+        _checkpointer = checkpointer
         logger.info("Postgres checkpointer ready")
-        return _checkpointer  # type: ignore[return-value]
+        return _checkpointer
 
 
 async def close_checkpointer() -> None:
@@ -119,7 +121,7 @@ async def close_checkpointer() -> None:
         try:
             await _pool.close()
         except Exception:  # noqa: BLE001  # pylint: disable=broad-exception-caught
-            pass
+            logger.warning("Error closing Postgres pool during shutdown", exc_info=True)
         _pool = None
     _checkpointer = None
     logger.info("Postgres checkpointer closed")

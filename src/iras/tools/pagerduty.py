@@ -3,6 +3,7 @@
 Idempotent by design: uses the incident_id as the dedup_key so repeated calls
 for the same incident never create duplicate pages.
 """
+# pylint: disable=missing-class-docstring,missing-function-docstring,too-many-arguments,too-many-positional-arguments,broad-exception-caught,unused-argument
 
 from __future__ import annotations
 

@@ -1,5 +1,6 @@
 """E2E tests — escalation path (RCA never reaches confidence threshold)."""
 
+# pylint: disable=unused-argument,missing-class-docstring,missing-function-docstring
 from __future__ import annotations
 
 import contextlib
@@ -91,7 +92,9 @@ def _postmortem_model(messages: list[ModelMessage], info: AgentInfo) -> ModelRes
                             "10:45 UTC — Escalated after 3 failed RCA attempts",
                         ],
                         "root_cause_summary": "Unknown — escalated after max RCA attempts.",
-                        "resolution_summary": "Escalated to on-call engineer for manual investigation.",
+                        "resolution_summary": (
+                            "Escalated to on-call engineer for manual investigation."
+                        ),
                         "action_items": ["Improve observability", "Add more log context"],
                         "severity": "P1",
                         "total_duration_minutes": 20,

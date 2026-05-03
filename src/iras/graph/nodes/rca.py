@@ -21,7 +21,8 @@ from typing import Any
 
 from pydantic_ai.exceptions import UnexpectedModelBehavior
 
-from iras.agents.rca import RCADeps, run_rca
+from iras.agents.deps import RCADeps
+from iras.agents.rca import run_rca
 from iras.config.settings import get_settings
 from iras.graph.state import IncidentState
 

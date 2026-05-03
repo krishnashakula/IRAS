@@ -18,7 +18,7 @@ from typing import Any
 from pydantic_ai import Agent
 from pydantic_ai.models.anthropic import AnthropicModel
 
-from iras.agents.deps import PostMortemDeps as PostMortemDeps
+from iras.agents.deps import PostMortemDeps
 from iras.models.incident import PostMortem
 
 _SYSTEM_PROMPT = """\
@@ -74,8 +74,10 @@ async def run_postmortem(
 
     user_prompt = (
         "Generate a post-mortem for this incident.\n\n"
-        f"**Complete incident record:**\n```json\n{json.dumps(incident_state, indent=2, default=str)}\n```\n\n"
-        "Build a thorough post-mortem with a timeline, root cause, resolution, and actionable follow-ups."
+        f"**Complete incident record:**\n"
+        f"```json\n{json.dumps(incident_state, indent=2, default=str)}\n```\n\n"
+        "Build a thorough post-mortem with a timeline, root cause, "
+        "resolution, and actionable follow-ups."
     )
 
     result = await postmortem_agent.run(user_prompt, deps=deps)

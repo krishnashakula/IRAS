@@ -8,6 +8,7 @@ This is resilient to process restarts: on startup the task reads from Postgres
 and catches up on any timeouts that fired while the process was down.
 """
 
+# pylint: disable=import-outside-toplevel
 from __future__ import annotations
 
 import asyncio

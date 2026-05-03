@@ -3,7 +3,7 @@
 Queries a configurable CI/CD backend for deployments to affected services
 within a given lookback window. Used by the context-gathering agent to
 identify recent changes that may have caused the incident.
-"""
+"""  # pylint: disable=missing-class-docstring,missing-function-docstring,too-few-public-methods,too-many-locals,import-outside-toplevel,broad-exception-caught
 
 from __future__ import annotations
 
@@ -103,8 +103,8 @@ class GitHubDeploymentClient(DeploymentClientBase):
                         diff_summary = (
                             commit_resp.json().get("commit", {}).get("message", "").split("\n")[0]
                         )
-                except Exception:
-                    pass
+                except Exception:  # noqa: BLE001
+                    logger.debug("Failed to fetch commit details for %s@%s", service, sha)
 
                 events.append(
                     DeploymentEvent(

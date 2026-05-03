@@ -1,5 +1,6 @@
 """Unit tests for iras.tools.pagerduty — MockPagerDutyClient and PagerDutyClient."""
 
+# pylint: disable=missing-class-docstring,missing-function-docstring,protected-access,import-outside-toplevel
 from __future__ import annotations
 
 import httpx

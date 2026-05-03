@@ -165,6 +165,7 @@ def _all_agents_mocked():
 
 class TestCrashRecovery:
     """E2E tests verifying graph state is checkpointed and can be resumed after a crash."""
+
     async def test_state_persisted_at_interrupt(self, alert_payload: dict[str, Any]):
         """After the first run (at interrupt), state is persisted to Postgres."""
         checkpointer = await get_checkpointer(postgres_url)
@@ -178,9 +179,7 @@ class TestCrashRecovery:
                     "iras.graph.nodes.postmortem._persist_postmortem",
                     new_callable=AsyncMock,
                 ):
-                    await graph.ainvoke(
-                        {"alert_payload": alert_payload}, config=config
-                    )
+                    await graph.ainvoke({"alert_payload": alert_payload}, config=config)
 
             # Verify state was persisted
             # aget_tuple() returns Optional[CheckpointTuple];
@@ -244,9 +243,7 @@ class TestCrashRecovery:
                     new_callable=AsyncMock,
                 ):
                     await graph.ainvoke({"alert_payload": alert_payload}, config=config)
-                    await graph.ainvoke(
-                        Command(resume={"approved": True}), config=config
-                    )
+                    await graph.ainvoke(Command(resume={"approved": True}), config=config)
 
             # A second resume of a completed thread should return the same state
             second_resume = await graph.ainvoke(Command(resume={"approved": True}), config=config)

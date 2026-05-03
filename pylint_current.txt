@@ -1,0 +1,1128 @@
+﻿************* Module iras.agents.context_gathering
+src\iras\agents\context_gathering.py:29:0: C0414: Import alias does not rename original package (useless-import-alias)
+************* Module iras.agents.deps
+src\iras\agents\deps.py:23:4: W0107: Unnecessary pass statement (unnecessary-pass)
+src\iras\agents\deps.py:39:4: W0107: Unnecessary pass statement (unnecessary-pass)
+src\iras\agents\deps.py:46:4: W0107: Unnecessary pass statement (unnecessary-pass)
+src\iras\agents\deps.py:53:4: W0107: Unnecessary pass statement (unnecessary-pass)
+************* Module iras.agents.postmortem
+src\iras\agents\postmortem.py:77:0: C0301: Line too long (111/100) (line-too-long)
+src\iras\agents\postmortem.py:78:0: C0301: Line too long (106/100) (line-too-long)
+src\iras\agents\postmortem.py:21:0: C0414: Import alias does not rename original package (useless-import-alias)
+************* Module iras.agents.rca
+src\iras\agents\rca.py:26:0: C0414: Import alias does not rename original package (useless-import-alias)
+************* Module iras.agents.remediation
+src\iras\agents\remediation.py:22:0: C0414: Import alias does not rename original package (useless-import-alias)
+************* Module iras.agents.triage
+src\iras\agents\triage.py:22:0: C0414: Import alias does not rename original package (useless-import-alias)
+************* Module iras.api.app
+src\iras\api\app.py:25:0: C0413: Import "from fastapi import FastAPI" should be placed at the top of the module (wrong-import-position)
+src\iras\api\app.py:26:0: C0413: Import "from fastapi.middleware.cors import CORSMiddleware" should be placed at the top of the module (wrong-import-position)
+src\iras\api\app.py:35:4: C0415: Import outside toplevel (iras.config.settings.get_settings) (import-outside-toplevel)
+src\iras\api\app.py:55:12: C0415: Import outside toplevel (logfire) (import-outside-toplevel)
+src\iras\api\app.py:64:4: C0415: Import outside toplevel (iras.graph.builder.build_graph) (import-outside-toplevel)
+src\iras\api\app.py:65:4: C0415: Import outside toplevel (iras.graph.checkpointer.close_checkpointer, iras.graph.checkpointer.get_checkpointer) (import-outside-toplevel)
+src\iras\api\app.py:83:4: C0415: Import outside toplevel (iras.api.background.monitor_approval_timeouts) (import-outside-toplevel)
+src\iras\api\app.py:114:4: C0415: Import outside toplevel (iras.api.routes.approval.router) (import-outside-toplevel)
+src\iras\api\app.py:115:4: C0415: Import outside toplevel (iras.api.routes.webhook.router) (import-outside-toplevel)
+src\iras\api\app.py:124:4: C0415: Import outside toplevel (iras.config.settings.get_settings) (import-outside-toplevel)
+src\iras\api\app.py:144:8: C0415: Import outside toplevel (iras.config.settings.get_settings) (import-outside-toplevel)
+************* Module iras.api.background
+src\iras\api\background.py:74:4: C0415: Import outside toplevel (psycopg) (import-outside-toplevel)
+************* Module iras.api.routes.approval
+src\iras\api\routes\approval.py:51:4: C0415: Import outside toplevel (iras.config.settings.get_settings) (import-outside-toplevel)
+src\iras\api\routes\approval.py:90:8: C0415: Import outside toplevel (psycopg) (import-outside-toplevel)
+************* Module iras.api.routes.webhook
+src\iras\api\routes\webhook.py:70:4: C0415: Import outside toplevel (iras.config.settings.get_settings) (import-outside-toplevel)
+************* Module iras.graph.checkpointer
+src\iras\graph\checkpointer.py:97:8: C0415: Import outside toplevel (psycopg) (import-outside-toplevel)
+************* Module iras.graph.nodes.escalation
+src\iras\graph\nodes\escalation.py:26:0: R0914: Too many local variables (19/15) (too-many-locals)
+************* Module iras.graph.nodes.generate_plan
+src\iras\graph\nodes\generate_plan.py:31:0: R0914: Too many local variables (20/15) (too-many-locals)
+src\iras\graph\nodes\generate_plan.py:99:4: C0415: Import outside toplevel (iras.tools.slack.SlackClient) (import-outside-toplevel)
+************* Module iras.graph.nodes.postmortem
+src\iras\graph\nodes\postmortem.py:64:8: C0415: Import outside toplevel (psycopg) (import-outside-toplevel)
+************* Module iras.tools.deployment
+src\iras\tools\deployment.py:25:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\deployment.py:39:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\deployment.py:39:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+src\iras\tools\deployment.py:64:4: R0914: Too many local variables (17/15) (too-many-locals)
+src\iras\tools\deployment.py:70:8: C0415: Import outside toplevel (datetime.datetime, datetime.timedelta) (import-outside-toplevel)
+src\iras\tools\deployment.py:121:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\deployment.py:106:23: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\deployment.py:129:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\deployment.py:136:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module iras.tools.log_fetcher
+src\iras\tools\log_fetcher.py:25:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\log_fetcher.py:56:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\log_fetcher.py:123:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\log_fetcher.py:131:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\log_fetcher.py:148:8: C0415: Import outside toplevel (datetime.datetime) (import-outside-toplevel)
+src\iras\tools\log_fetcher.py:153:4: R0914: Too many local variables (18/15) (too-many-locals)
+src\iras\tools\log_fetcher.py:195:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\log_fetcher.py:182:20: C0415: Import outside toplevel (datetime.datetime) (import-outside-toplevel)
+src\iras\tools\log_fetcher.py:203:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module iras.tools.metrics
+src\iras\tools\metrics.py:24:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\metrics.py:36:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\metrics.py:36:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+src\iras\tools\metrics.py:69:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\metrics.py:88:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\metrics.py:95:4: R0914: Too many local variables (19/15) (too-many-locals)
+src\iras\tools\metrics.py:101:8: C0415: Import outside toplevel (datetime.datetime, datetime.timedelta) (import-outside-toplevel)
+src\iras\tools\metrics.py:147:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\metrics.py:154:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module iras.tools.pagerduty
+src\iras\tools\pagerduty.py:26:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\pagerduty.py:53:4: R0913: Too many arguments (6/5) (too-many-arguments)
+src\iras\tools\pagerduty.py:53:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+src\iras\tools\pagerduty.py:90:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\pagerduty.py:102:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\pagerduty.py:117:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\pagerduty.py:121:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\pagerduty.py:124:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\pagerduty.py:124:4: R0913: Too many arguments (6/5) (too-many-arguments)
+src\iras\tools\pagerduty.py:124:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+src\iras\tools\pagerduty.py:130:8: W0613: Unused argument 'source' (unused-argument)
+************* Module iras.tools.slack
+src\iras\tools\slack.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\slack.py:32:0: C0115: Missing class docstring (missing-class-docstring)
+src\iras\tools\slack.py:47:8: C0415: Import outside toplevel (slack_sdk.web.async_client.AsyncWebClient) (import-outside-toplevel)
+src\iras\tools\slack.py:69:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\iras\tools\slack.py:77:4: R0913: Too many arguments (6/5) (too-many-arguments)
+src\iras\tools\slack.py:77:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+src\iras\tools\slack.py:180:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\iras\tools\slack.py:183:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module iras.tools
+src\iras\tools\__init__.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module tests.conftest
+tests\conftest.py:175:0: C0301: Line too long (101/100) (line-too-long)
+tests\conftest.py:19:0: C0413: Import "import pytest" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:21:0: C0413: Import "from iras.agents.deps import ApprovalDeps, ContextDeps, EscalationDeps, PostMortemDeps, RCADeps, RemediationDeps, TriageDeps" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:30:0: C0413: Import "from iras.graph.state import IncidentState" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:31:0: C0413: Import "from iras.models.incident import ContextBundle, LogEvidence, MetricAnomaly, PostMortem, RemediationPlan, RemediationStep, RootCauseHypothesis, TriageResult" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:41:0: C0413: Import "from iras.tools.deployment import DeploymentEvent, MockDeploymentClient" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:42:0: C0413: Import "from iras.tools.log_fetcher import MockLogFetcher, RawLogLine" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:43:0: C0413: Import "from iras.tools.metrics import MetricResult, MockMetricsClient" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:44:0: C0413: Import "from iras.tools.pagerduty import MockPagerDutyClient" should be placed at the top of the module (wrong-import-position)
+tests\conftest.py:45:0: C0413: Import "from iras.tools.slack import MockSlackClient" should be placed at the top of the module (wrong-import-position)
+************* Module tests.e2e.test_escalation_path
+tests\e2e\test_escalation_path.py:94:0: C0301: Line too long (104/100) (line-too-long)
+tests\e2e\test_escalation_path.py:26:18: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_escalation_path.py:26:48: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_escalation_path.py:44:19: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_escalation_path.py:44:49: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_escalation_path.py:62:30: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_escalation_path.py:62:60: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_escalation_path.py:82:22: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_escalation_path.py:82:52: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_escalation_path.py:117:0: C0115: Missing class docstring (missing-class-docstring)
+tests\e2e\test_escalation_path.py:134:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\e2e\test_escalation_path.py:149:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\e2e\test_escalation_path.py:163:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\e2e\test_escalation_path.py:177:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\e2e\test_escalation_path.py:198:33: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_escalation_path.py:198:43: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_escalation_path.py:216:24: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_escalation_path.py:216:34: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_escalation_path.py:261:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.e2e.test_happy_path
+tests\e2e\test_happy_path.py:109:0: C0301: Line too long (101/100) (line-too-long)
+tests\e2e\test_happy_path.py:26:18: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_happy_path.py:26:48: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_happy_path.py:44:19: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_happy_path.py:44:49: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_happy_path.py:75:31: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_happy_path.py:75:61: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_happy_path.py:100:23: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_happy_path.py:100:53: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_happy_path.py:125:22: W0613: Unused argument 'messages' (unused-argument)
+tests\e2e\test_happy_path.py:125:52: W0613: Unused argument 'info' (unused-argument)
+tests\e2e\test_happy_path.py:163:0: C0115: Missing class docstring (missing-class-docstring)
+tests\e2e\test_happy_path.py:183:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\e2e\test_happy_path.py:201:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\e2e\test_happy_path.py:202:8: C0415: Import outside toplevel (re) (import-outside-toplevel)
+tests\e2e\test_happy_path.py:219:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\e2e\test_happy_path.py:234:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.integration.test_api
+tests\integration\test_api.py:356:0: C0301: Line too long (101/100) (line-too-long)
+tests\integration\test_api.py:366:0: C0301: Line too long (101/100) (line-too-long)
+tests\integration\test_api.py:24:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_api.py:27:8: W0621: Redefining name 'MagicMock' from outer scope (line 6) (redefined-outer-name)
+tests\integration\test_api.py:27:8: W0404: Reimport 'MagicMock' (imported line 6) (reimported)
+tests\integration\test_api.py:27:8: C0415: Import outside toplevel (unittest.mock.MagicMock) (import-outside-toplevel)
+tests\integration\test_api.py:24:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\integration\test_api.py:52:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_api.py:54:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:61:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:62:13: W0612: Unused variable 'mock_graph' (unused-variable)
+tests\integration\test_api.py:73:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:74:13: W0612: Unused variable 'mock_graph' (unused-variable)
+tests\integration\test_api.py:83:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:93:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:108:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_api.py:110:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:117:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:118:13: W0612: Unused variable 'mock_graph' (unused-variable)
+tests\integration\test_api.py:129:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:130:13: W0612: Unused variable 'mock_graph' (unused-variable)
+tests\integration\test_api.py:140:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:146:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:152:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:162:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:173:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_api.py:176:8: C0415: Import outside toplevel (os) (import-outside-toplevel)
+tests\integration\test_api.py:178:8: C0415: Import outside toplevel (iras.api.routes.approval._update_approval_status) (import-outside-toplevel)
+tests\integration\test_api.py:173:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\integration\test_api.py:255:35: W0613: Unused argument 'graph' (unused-argument)
+tests\integration\test_api.py:282:35: W0613: Unused argument 'graph' (unused-argument)
+tests\integration\test_api.py:300:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_api.py:303:8: C0415: Import outside toplevel (os) (import-outside-toplevel)
+tests\integration\test_api.py:305:8: C0415: Import outside toplevel (iras.api.routes.approval._update_approval_status) (import-outside-toplevel)
+tests\integration\test_api.py:331:8: C0415: Import outside toplevel (os) (import-outside-toplevel)
+tests\integration\test_api.py:333:8: C0415: Import outside toplevel (iras.api.routes.approval._update_approval_status) (import-outside-toplevel)
+tests\integration\test_api.py:350:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_api.py:351:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_api.py:352:8: C0415: Import outside toplevel (iras.api.routes.webhook._run_graph_background) (import-outside-toplevel)
+tests\integration\test_api.py:361:8: C0415: Import outside toplevel (iras.api.routes.webhook._run_graph_background) (import-outside-toplevel)
+************* Module tests.integration.test_background
+tests\integration\test_background.py:14:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_background.py:15:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_background.py:33:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module tests.integration.test_checkpointer
+tests\integration\test_checkpointer.py:30:0: C0301: Line too long (106/100) (line-too-long)
+tests\integration\test_checkpointer.py:31:0: C0301: Line too long (114/100) (line-too-long)
+tests\integration\test_checkpointer.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_checkpointer.py:34:12: C0415: Import outside toplevel (iras.graph.checkpointer) (import-outside-toplevel)
+tests\integration\test_checkpointer.py:36:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:37:12: W0212: Access to a protected member _init_lock of a client class (protected-access)
+tests\integration\test_checkpointer.py:50:8: C0415: Import outside toplevel (iras.graph.checkpointer) (import-outside-toplevel)
+tests\integration\test_checkpointer.py:52:19: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:54:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:58:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:61:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_checkpointer.py:64:8: C0415: Import outside toplevel (iras.graph.checkpointer) (import-outside-toplevel)
+tests\integration\test_checkpointer.py:66:19: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:68:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:70:19: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:72:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:80:8: C0415: Import outside toplevel (iras.graph.checkpointer) (import-outside-toplevel)
+tests\integration\test_checkpointer.py:82:19: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:84:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:86:19: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:88:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:96:8: C0415: Import outside toplevel (iras.graph.checkpointer) (import-outside-toplevel)
+tests\integration\test_checkpointer.py:98:19: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:100:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:102:19: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+tests\integration\test_checkpointer.py:104:12: W0212: Access to a protected member _checkpointer of a client class (protected-access)
+************* Module tests.integration.test_graph_builder
+tests\integration\test_graph_builder.py:10:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\test_graph_builder.py:11:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_graph_builder.py:15:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\test_graph_builder.py:20:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.integration.nodes.test_apply_remediation_node
+tests\integration\nodes\test_apply_remediation_node.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:26:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:27:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:27:65: W0621: Redefining name 'remediation_state' from outer scope (line 19) (redefined-outer-name)
+tests\integration\nodes\test_apply_remediation_node.py:31:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:38:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:38:56: W0621: Redefining name 'remediation_state' from outer scope (line 19) (redefined-outer-name)
+tests\integration\nodes\test_apply_remediation_node.py:41:31: W0613: Unused argument 'step' (unused-argument)
+tests\integration\nodes\test_apply_remediation_node.py:41:37: W0613: Unused argument 'incident_id' (unused-argument)
+tests\integration\nodes\test_apply_remediation_node.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:53:73: W0621: Redefining name 'remediation_state' from outer scope (line 19) (redefined-outer-name)
+tests\integration\nodes\test_apply_remediation_node.py:54:32: W0613: Unused argument 'step' (unused-argument)
+tests\integration\nodes\test_apply_remediation_node.py:54:38: W0613: Unused argument 'incident_id' (unused-argument)
+tests\integration\nodes\test_apply_remediation_node.py:83:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:105:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:106:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_apply_remediation_node.py:105:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module tests.integration.nodes.test_approval_node
+tests\integration\nodes\test_approval_node.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_approval_node.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_approval_node.py:33:54: W0621: Redefining name 'approval_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_approval_node.py:41:58: W0621: Redefining name 'approval_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_approval_node.py:54:15: E1136: Value 'interrupt_value' is unsubscriptable (unsubscriptable-object)
+tests\integration\nodes\test_approval_node.py:55:15: E1136: Value 'interrupt_value' is unsubscriptable (unsubscriptable-object)
+tests\integration\nodes\test_approval_node.py:57:45: W0621: Redefining name 'approval_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_approval_node.py:63:46: W0621: Redefining name 'approval_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_approval_node.py:69:60: W0621: Redefining name 'approval_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_approval_node.py:76:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_approval_node.py:77:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_approval_node.py:82:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_approval_node.py:87:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.integration.nodes.test_context_node
+tests\integration\nodes\test_context_node.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_context_node.py:19:11: W0613: Unused argument 'messages' (unused-argument)
+tests\integration\nodes\test_context_node.py:19:41: W0613: Unused argument 'info' (unused-argument)
+tests\integration\nodes\test_context_node.py:46:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_context_node.py:56:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_context_node.py:57:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_context_node.py:58:14: W0621: Redefining name 'context_state' from outer scope (line 46) (redefined-outer-name)
+tests\integration\nodes\test_context_node.py:66:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_context_node.py:67:14: W0621: Redefining name 'context_state' from outer scope (line 46) (redefined-outer-name)
+tests\integration\nodes\test_context_node.py:75:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_context_node.py:76:14: W0621: Redefining name 'context_state' from outer scope (line 46) (redefined-outer-name)
+tests\integration\nodes\test_context_node.py:83:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_context_node.py:84:14: W0621: Redefining name 'context_state' from outer scope (line 46) (redefined-outer-name)
+tests\integration\nodes\test_context_node.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_context_node.py:94:43: W0621: Redefining name 'context_state' from outer scope (line 46) (redefined-outer-name)
+tests\integration\nodes\test_context_node.py:95:8: W0404: Reimport 'json' (imported line 5) (reimported)
+tests\integration\nodes\test_context_node.py:95:8: C0415: Import outside toplevel (json) (import-outside-toplevel)
+************* Module tests.integration.nodes.test_escalation_node
+tests\integration\nodes\test_escalation_node.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_escalation_node.py:31:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_escalation_node.py:32:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_escalation_node.py:32:45: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_escalation_node.py:41:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_escalation_node.py:41:45: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_escalation_node.py:50:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_escalation_node.py:50:49: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_escalation_node.py:60:14: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_escalation_node.py:73:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_escalation_node.py:73:53: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_escalation_node.py:82:58: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_escalation_node.py:93:62: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+tests\integration\nodes\test_escalation_node.py:107:59: W0621: Redefining name 'escalation_state' from outer scope (line 15) (redefined-outer-name)
+************* Module tests.integration.nodes.test_ingestion_node
+tests\integration\nodes\test_ingestion_node.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_ingestion_node.py:14:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:28:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:36:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:37:8: C0415: Import outside toplevel (re) (import-outside-toplevel)
+tests\integration\nodes\test_ingestion_node.py:45:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:60:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:65:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:70:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_ingestion_node.py:75:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.integration.nodes.test_postmortem_node
+tests\integration\nodes\test_postmortem_node.py:72:8: C0415: Import outside toplevel (re) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:125:8: W0404: Reimport 'json' (imported line 5) (reimported)
+tests\integration\nodes\test_postmortem_node.py:125:8: C0415: Import outside toplevel (json) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:165:8: C0415: Import outside toplevel (os) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:167:8: C0415: Import outside toplevel (iras.graph.nodes.postmortem._persist_postmortem) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:207:8: C0415: Import outside toplevel (os) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:209:8: C0415: Import outside toplevel (iras.graph.nodes.postmortem._persist_postmortem) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:239:8: C0415: Import outside toplevel (os) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:262:8: C0415: Import outside toplevel (os) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:263:8: W0404: Reimport 'patch' (imported line 6) (reimported)
+tests\integration\nodes\test_postmortem_node.py:263:8: C0415: Import outside toplevel (unittest.mock.patch) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:265:8: C0415: Import outside toplevel (iras.graph.nodes.postmortem._build_slack_client) (import-outside-toplevel)
+tests\integration\nodes\test_postmortem_node.py:272:12: C0415: Import outside toplevel (iras.tools.slack.SlackClient) (import-outside-toplevel)
+************* Module tests.integration.nodes.test_rca_node
+tests\integration\nodes\test_rca_node.py:25:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:26:11: W0613: Unused argument 'messages' (unused-argument)
+tests\integration\nodes\test_rca_node.py:26:41: W0613: Unused argument 'info' (unused-argument)
+tests\integration\nodes\test_rca_node.py:47:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:60:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_rca_node.py:61:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:61:52: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:68:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:68:49: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:74:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:74:59: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:81:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:81:43: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:82:8: W0404: Reimport 'json' (imported line 5) (reimported)
+tests\integration\nodes\test_rca_node.py:82:8: C0415: Import outside toplevel (json) (import-outside-toplevel)
+tests\integration\nodes\test_rca_node.py:90:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_rca_node.py:92:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:96:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:96:59: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:110:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:110:50: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:124:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:124:53: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:138:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_rca_node.py:138:63: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:152:65: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:162:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_rca_node.py:164:14: W0621: Redefining name 'rca_state' from outer scope (line 47) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:167:8: W0621: Redefining name 'patch' from outer scope (line 6) (redefined-outer-name)
+tests\integration\nodes\test_rca_node.py:167:8: W0404: Reimport 'patch' (imported line 6) (reimported)
+tests\integration\nodes\test_rca_node.py:167:8: C0415: Import outside toplevel (unittest.mock.patch) (import-outside-toplevel)
+tests\integration\nodes\test_rca_node.py:169:8: C0415: Import outside toplevel (pydantic_ai.exceptions.UnexpectedModelBehavior) (import-outside-toplevel)
+tests\integration\nodes\test_rca_node.py:162:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module tests.integration.nodes.test_remediation_node
+tests\integration\nodes\test_remediation_node.py:110:8: W0404: Reimport 'json' (imported line 5) (reimported)
+tests\integration\nodes\test_remediation_node.py:110:8: C0415: Import outside toplevel (json) (import-outside-toplevel)
+tests\integration\nodes\test_remediation_node.py:124:8: C0415: Import outside toplevel (unittest.mock.patch) (import-outside-toplevel)
+tests\integration\nodes\test_remediation_node.py:126:8: C0415: Import outside toplevel (pydantic_ai.exceptions.UnexpectedModelBehavior) (import-outside-toplevel)
+tests\integration\nodes\test_remediation_node.py:143:8: W0404: Reimport 'MockSlackClient' (imported line 16) (reimported)
+tests\integration\nodes\test_remediation_node.py:143:8: C0415: Import outside toplevel (iras.tools.slack.MockSlackClient) (import-outside-toplevel)
+************* Module tests.integration.nodes.test_triage_node
+tests\integration\nodes\test_triage_node.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_triage_node.py:19:11: W0613: Unused argument 'messages' (unused-argument)
+tests\integration\nodes\test_triage_node.py:19:41: W0613: Unused argument 'info' (unused-argument)
+tests\integration\nodes\test_triage_node.py:32:0: C0115: Missing class docstring (missing-class-docstring)
+tests\integration\nodes\test_triage_node.py:33:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_triage_node.py:46:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_triage_node.py:62:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\integration\nodes\test_triage_node.py:63:8: W0404: Reimport 'json' (imported line 5) (reimported)
+tests\integration\nodes\test_triage_node.py:63:8: C0415: Import outside toplevel (json) (import-outside-toplevel)
+************* Module tests.stress.test_real_world_scenarios
+tests\stress\test_real_world_scenarios.py:210:0: C0301: Line too long (104/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:351:0: C0301: Line too long (102/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:481:0: C0301: Line too long (105/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:486:0: C0301: Line too long (104/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:518:0: C0301: Line too long (103/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:520:0: C0301: Line too long (102/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:546:0: C0301: Line too long (102/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:1182:0: C0301: Line too long (101/100) (line-too-long)
+tests\stress\test_real_world_scenarios.py:1:0: C0302: Too many lines in module (1649/1000) (too-many-lines)
+tests\stress\test_real_world_scenarios.py:353:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:368:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:383:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:398:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:413:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:437:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:443:20: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:458:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:464:20: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:475:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:481:20: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:482:21: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:502:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:510:25: W0613: Unused argument 'messages' (unused-argument)
+tests\stress\test_real_world_scenarios.py:510:35: W0613: Unused argument 'info' (unused-argument)
+tests\stress\test_real_world_scenarios.py:518:20: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:538:25: W0613: Unused argument 'messages' (unused-argument)
+tests\stress\test_real_world_scenarios.py:538:35: W0613: Unused argument 'info' (unused-argument)
+tests\stress\test_real_world_scenarios.py:544:20: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:564:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:570:20: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:576:25: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:561:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\stress\test_real_world_scenarios.py:601:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:619:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:646:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:652:23: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:673:8: C0415: Import outside toplevel (iras.config.settings.get_settings) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:683:23: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:708:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:733:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:764:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:770:24: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:796:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:802:26: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:835:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:845:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:855:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:862:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:909:8: W0612: Unused variable 'graph' (unused-variable)
+tests\stress\test_real_world_scenarios.py:911:8: W0612: Unused variable 'config' (unused-variable)
+tests\stress\test_real_world_scenarios.py:875:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\stress\test_real_world_scenarios.py:932:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:948:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:975:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:990:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1024:12: W0612: Unused variable 'mid' (unused-variable)
+tests\stress\test_real_world_scenarios.py:1028:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1060:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1071:25: W0613: Unused argument 'msgs' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1071:31: W0613: Unused argument 'info' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1073:16: W0612: Unused variable 'sev' (unused-variable)
+tests\stress\test_real_world_scenarios.py:1079:16: W0612: Unused variable 'config' (unused-variable)
+tests\stress\test_real_world_scenarios.py:1097:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1094:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\stress\test_real_world_scenarios.py:1134:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1140:25: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:1148:12: W0612: Unused variable 'mid' (unused-variable)
+tests\stress\test_real_world_scenarios.py:1131:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\stress\test_real_world_scenarios.py:1164:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1165:30: W0613: Unused argument 'messages' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1165:40: W0613: Unused argument 'info' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1200:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1201:32: W0613: Unused argument 'messages' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1201:42: W0613: Unused argument 'info' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1236:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1259:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1260:8: C0415: Import outside toplevel (httpx.ASGITransport, httpx.AsyncClient) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1262:8: C0415: Import outside toplevel (iras.api.app.create_app) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1275:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1276:8: C0415: Import outside toplevel (httpx.ASGITransport, httpx.AsyncClient) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1278:8: C0415: Import outside toplevel (iras.api.app.create_app) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1291:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1292:8: C0415: Import outside toplevel (httpx.ASGITransport, httpx.AsyncClient) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1294:8: C0415: Import outside toplevel (iras.api.app.create_app) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1298:42: W0613: Unused argument 'config' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1298:0: W0613: Unused argument 'kwargs' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1367:8: C0415: Import outside toplevel (httpx.ASGITransport, httpx.AsyncClient) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1369:8: C0415: Import outside toplevel (iras.api.app.create_app) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1373:35: W0613: Unused argument 'state' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1373:0: W0613: Unused argument 'kwargs' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1441:19: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+tests\stress\test_real_world_scenarios.py:1416:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\stress\test_real_world_scenarios.py:1475:8: C0415: Import outside toplevel (iras.graph.nodes.apply_remediation.apply_remediation_node) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1463:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\stress\test_real_world_scenarios.py:1516:8: C0415: Import outside toplevel (inspect) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1518:8: C0415: Import outside toplevel (iras.graph.checkpointer) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1503:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\stress\test_real_world_scenarios.py:1542:11: W0718: Catching too general exception Exception (broad-exception-caught)
+tests\stress\test_real_world_scenarios.py:1537:8: C0415: Import outside toplevel (httpx) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1556:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1556:54: W0621: Redefining name 'live_server_required' from outer scope (line 1547) (redefined-outer-name)
+tests\stress\test_real_world_scenarios.py:1557:8: C0415: Import outside toplevel (httpx) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1556:54: W0613: Unused argument 'live_server_required' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1602:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\stress\test_real_world_scenarios.py:1602:52: W0621: Redefining name 'live_server_required' from outer scope (line 1547) (redefined-outer-name)
+tests\stress\test_real_world_scenarios.py:1603:8: C0415: Import outside toplevel (httpx) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1605:39: W0613: Unused argument 'i' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1602:52: W0613: Unused argument 'live_server_required' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1618:53: W0621: Redefining name 'live_server_required' from outer scope (line 1547) (redefined-outer-name)
+tests\stress\test_real_world_scenarios.py:1620:8: C0415: Import outside toplevel (httpx) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1618:53: W0613: Unused argument 'live_server_required' (unused-argument)
+tests\stress\test_real_world_scenarios.py:1634:52: W0621: Redefining name 'live_server_required' from outer scope (line 1547) (redefined-outer-name)
+tests\stress\test_real_world_scenarios.py:1636:8: C0415: Import outside toplevel (httpx) (import-outside-toplevel)
+tests\stress\test_real_world_scenarios.py:1634:52: W0613: Unused argument 'live_server_required' (unused-argument)
+tests\stress\test_real_world_scenarios.py:43:0: W0611: Unused ModelMessage imported from pydantic_ai.messages (unused-import)
+tests\stress\test_real_world_scenarios.py:44:0: W0611: Unused AgentInfo imported from pydantic_ai.models.function (unused-import)
+tests\stress\test_real_world_scenarios.py:55:0: W0611: Unused MockPagerDutyClient imported from iras.tools.pagerduty (unused-import)
+************* Module tests.unit.test_settings
+tests\unit\test_settings.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_settings.py:18:8: C0415: Import outside toplevel (iras.config.settings.get_settings) (import-outside-toplevel)
+tests\unit\test_settings.py:6:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module tests.unit.test_tools_deployment
+tests\unit\test_tools_deployment.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_deployment.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:40:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_deployment.py:41:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:46:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:59:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:71:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:78:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:91:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_deployment.py:93:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:94:8: C0415: Import outside toplevel (datetime.datetime, datetime.timedelta) (import-outside-toplevel)
+tests\unit\test_tools_deployment.py:130:14: W0212: Access to a protected member _client of a client class (protected-access)
+tests\unit\test_tools_deployment.py:133:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_deployment.py:145:14: W0212: Access to a protected member _client of a client class (protected-access)
+tests\unit\test_tools_deployment.py:170:14: W0212: Access to a protected member _client of a client class (protected-access)
+tests\unit\test_tools_deployment.py:195:14: W0212: Access to a protected member _client of a client class (protected-access)
+tests\unit\test_tools_deployment.py:200:8: C0415: Import outside toplevel (datetime.datetime, datetime.timedelta) (import-outside-toplevel)
+tests\unit\test_tools_deployment.py:230:14: W0212: Access to a protected member _client of a client class (protected-access)
+tests\unit\test_tools_deployment.py:235:8: C0415: Import outside toplevel (datetime.datetime, datetime.timedelta) (import-outside-toplevel)
+tests\unit\test_tools_deployment.py:265:14: W0212: Access to a protected member _client of a client class (protected-access)
+tests\unit\test_tools_deployment.py:269:8: C0415: Import outside toplevel (unittest.mock.AsyncMock, unittest.mock.patch) (import-outside-toplevel)
+tests\unit\test_tools_deployment.py:276:26: W0212: Access to a protected member _client of a client class (protected-access)
+************* Module tests.unit.test_tools_log_fetcher
+tests\unit\test_tools_log_fetcher.py:18:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_log_fetcher.py:19:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:26:15: C1803: "line.extra == {}" can be simplified to "not line.extra", if it is strictly a sequence, as an empty dict is falsey (use-implicit-booleaness-not-comparison)
+tests\unit\test_tools_log_fetcher.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:40:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_log_fetcher.py:41:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:46:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:60:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:66:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:72:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:78:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:83:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_log_fetcher.py:84:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:88:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:92:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:99:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:104:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_log_fetcher.py:106:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:135:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:144:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:154:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_log_fetcher.py:155:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:157:13: W0212: Access to a protected member _to_ns of a client class (protected-access)
+tests\unit\test_tools_log_fetcher.py:163:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:189:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_log_fetcher.py:200:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.unit.test_tools_metrics
+tests\unit\test_tools_metrics.py:15:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_metrics.py:16:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:15:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests\unit\test_tools_metrics.py:28:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_metrics.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:36:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:44:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:50:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:56:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:69:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_metrics.py:71:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:79:20: W0212: Access to a protected member _instant_query of a client class (protected-access)
+tests\unit\test_tools_metrics.py:84:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:89:20: W0212: Access to a protected member _instant_query of a client class (protected-access)
+tests\unit\test_tools_metrics.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:97:20: W0212: Access to a protected member _instant_query of a client class (protected-access)
+tests\unit\test_tools_metrics.py:102:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:122:21: W0212: Access to a protected member _range_query of a client class (protected-access)
+tests\unit\test_tools_metrics.py:127:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:132:21: W0212: Access to a protected member _range_query of a client class (protected-access)
+tests\unit\test_tools_metrics.py:137:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:176:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:183:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_metrics.py:196:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.unit.test_tools_pagerduty
+tests\unit\test_tools_pagerduty.py:14:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_pagerduty.py:15:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:44:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:51:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:57:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:62:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:73:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:79:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_pagerduty.py:80:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:82:15: W0212: Access to a protected member _map_severity of a client class (protected-access)
+tests\unit\test_tools_pagerduty.py:84:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:86:15: W0212: Access to a protected member _map_severity of a client class (protected-access)
+tests\unit\test_tools_pagerduty.py:88:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:90:15: W0212: Access to a protected member _map_severity of a client class (protected-access)
+tests\unit\test_tools_pagerduty.py:92:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:94:15: W0212: Access to a protected member _map_severity of a client class (protected-access)
+tests\unit\test_tools_pagerduty.py:96:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:98:15: W0212: Access to a protected member _map_severity of a client class (protected-access)
+tests\unit\test_tools_pagerduty.py:100:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_pagerduty.py:102:15: W0212: Access to a protected member _map_severity of a client class (protected-access)
+tests\unit\test_tools_pagerduty.py:111:8: C0415: Import outside toplevel (iras.tools.pagerduty.PAGERDUTY_EVENTS_URL) (import-outside-toplevel)
+tests\unit\test_tools_pagerduty.py:134:8: C0415: Import outside toplevel (iras.tools.pagerduty.PAGERDUTY_EVENTS_URL) (import-outside-toplevel)
+tests\unit\test_tools_pagerduty.py:153:8: C0415: Import outside toplevel (iras.tools.pagerduty.PAGERDUTY_EVENTS_URL) (import-outside-toplevel)
+************* Module tests.unit.test_tools_slack
+tests\unit\test_tools_slack.py:12:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_slack.py:13:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:20:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:27:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:33:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:39:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:46:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:51:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:58:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:71:8: C0415: Import outside toplevel (types) (import-outside-toplevel)
+tests\unit\test_tools_slack.py:72:8: C0415: Import outside toplevel (unittest.mock.AsyncMock, unittest.mock.MagicMock, unittest.mock.patch) (import-outside-toplevel)
+tests\unit\test_tools_slack.py:92:8: C0415: Import outside toplevel (types) (import-outside-toplevel)
+tests\unit\test_tools_slack.py:93:8: C0415: Import outside toplevel (unittest.mock.AsyncMock, unittest.mock.MagicMock, unittest.mock.patch) (import-outside-toplevel)
+tests\unit\test_tools_slack.py:120:8: C0415: Import outside toplevel (types) (import-outside-toplevel)
+tests\unit\test_tools_slack.py:121:8: C0415: Import outside toplevel (unittest.mock.AsyncMock, unittest.mock.MagicMock, unittest.mock.patch) (import-outside-toplevel)
+tests\unit\test_tools_slack.py:138:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\test_tools_slack.py:139:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:152:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:164:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:176:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\test_tools_slack.py:188:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.unit.agents.test_context_agent
+tests\unit\agents\test_context_agent.py:44:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_context_agent.py:44:16: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_context_agent.py:44:46: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_context_agent.py:48:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_context_agent.py:48:28: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_context_agent.py:48:58: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_context_agent.py:52:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\agents\test_context_agent.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_context_agent.py:66:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_context_agent.py:77:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_context_agent.py:83:29: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_context_agent.py:83:39: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_context_agent.py:99:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_context_agent.py:128:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_context_agent.py:134:8: C0415: Import outside toplevel (pydantic_ai.exceptions.UnexpectedModelBehavior) (import-outside-toplevel)
+tests\unit\agents\test_context_agent.py:138:22: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_context_agent.py:138:32: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_context_agent.py:159:8: W0621: Redefining name 'ContextDeps' from outer scope (line 13) (redefined-outer-name)
+tests\unit\agents\test_context_agent.py:160:8: W0621: Redefining name 'MockDeploymentClient' from outer scope (line 15) (redefined-outer-name)
+tests\unit\agents\test_context_agent.py:161:8: W0621: Redefining name 'MockLogFetcher' from outer scope (line 16) (redefined-outer-name)
+tests\unit\agents\test_context_agent.py:162:8: W0621: Redefining name 'MockMetricsClient' from outer scope (line 17) (redefined-outer-name)
+tests\unit\agents\test_context_agent.py:159:8: W0404: Reimport 'ContextDeps' (imported line 13) (reimported)
+tests\unit\agents\test_context_agent.py:159:8: C0415: Import outside toplevel (iras.agents.deps.ContextDeps) (import-outside-toplevel)
+tests\unit\agents\test_context_agent.py:160:8: W0404: Reimport 'MockDeploymentClient' (imported line 15) (reimported)
+tests\unit\agents\test_context_agent.py:160:8: C0415: Import outside toplevel (iras.tools.deployment.MockDeploymentClient) (import-outside-toplevel)
+tests\unit\agents\test_context_agent.py:161:8: W0404: Reimport 'MockLogFetcher' (imported line 16) (reimported)
+tests\unit\agents\test_context_agent.py:161:8: C0415: Import outside toplevel (iras.tools.log_fetcher.MockLogFetcher) (import-outside-toplevel)
+tests\unit\agents\test_context_agent.py:162:8: W0404: Reimport 'MockMetricsClient' (imported line 17) (reimported)
+tests\unit\agents\test_context_agent.py:162:8: C0415: Import outside toplevel (iras.tools.metrics.MockMetricsClient) (import-outside-toplevel)
+tests\unit\agents\test_context_agent.py:190:8: C0415: Import outside toplevel (pydantic_ai.messages.ToolCallPart) (import-outside-toplevel)
+tests\unit\agents\test_context_agent.py:196:12: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+tests\unit\agents\test_context_agent.py:194:31: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_context_agent.py:194:47: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_context_agent.py:150:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module tests.unit.agents.test_postmortem_agent
+tests\unit\agents\test_postmortem_agent.py:39:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\agents\test_postmortem_agent.py:40:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_postmortem_agent.py:41:18: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:41:28: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_postmortem_agent.py:54:18: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:54:28: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:65:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_postmortem_agent.py:66:18: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:66:28: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:74:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_postmortem_agent.py:75:18: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:75:28: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:85:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_postmortem_agent.py:86:18: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:86:28: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:113:18: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:113:28: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:131:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_postmortem_agent.py:132:8: C0415: Import outside toplevel (pydantic_ai.exceptions.UnexpectedModelBehavior) (import-outside-toplevel)
+tests\unit\agents\test_postmortem_agent.py:134:22: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_postmortem_agent.py:134:32: W0613: Unused argument 'info' (unused-argument)
+************* Module tests.unit.agents.test_rca_agent
+tests\unit\agents\test_rca_agent.py:35:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:35:26: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_rca_agent.py:35:56: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_rca_agent.py:39:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:39:25: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_rca_agent.py:39:55: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_rca_agent.py:43:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:43:30: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_rca_agent.py:43:60: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_rca_agent.py:47:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\agents\test_rca_agent.py:48:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:61:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:84:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:90:18: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_rca_agent.py:90:28: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_rca_agent.py:106:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:119:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:130:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_rca_agent.py:136:8: C0415: Import outside toplevel (pydantic_ai.exceptions.UnexpectedModelBehavior) (import-outside-toplevel)
+tests\unit\agents\test_rca_agent.py:140:22: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_rca_agent.py:140:32: W0613: Unused argument 'info' (unused-argument)
+************* Module tests.unit.agents.test_remediation_agent
+tests\unit\agents\test_remediation_agent.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:41:19: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_remediation_agent.py:41:49: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_remediation_agent.py:45:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:45:20: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_remediation_agent.py:45:50: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_remediation_agent.py:49:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\agents\test_remediation_agent.py:50:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:67:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:82:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:97:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:113:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:127:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_remediation_agent.py:134:8: C0415: Import outside toplevel (pydantic_ai.exceptions.UnexpectedModelBehavior) (import-outside-toplevel)
+tests\unit\agents\test_remediation_agent.py:136:22: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_remediation_agent.py:136:32: W0613: Unused argument 'info' (unused-argument)
+************* Module tests.unit.agents.test_triage_agent
+tests\unit\agents\test_triage_agent.py:38:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:38:16: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_triage_agent.py:38:46: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_triage_agent.py:42:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:42:13: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_triage_agent.py:42:43: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_triage_agent.py:48:0: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:48:25: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_triage_agent.py:48:55: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_triage_agent.py:52:0: C0115: Missing class docstring (missing-class-docstring)
+tests\unit\agents\test_triage_agent.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:62:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:69:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:83:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:91:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\unit\agents\test_triage_agent.py:95:22: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_triage_agent.py:95:32: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_triage_agent.py:109:22: W0613: Unused argument 'messages' (unused-argument)
+tests\unit\agents\test_triage_agent.py:109:52: W0613: Unused argument 'info' (unused-argument)
+tests\unit\agents\test_triage_agent.py:114:8: C0415: Import outside toplevel (pydantic_ai.exceptions.UnexpectedModelBehavior) (import-outside-toplevel)
+************* Module tests.unit.agents.__init__
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[46:69]
+==tests.e2e.test_escalation_path:[26:49]
+    return ModelResponse(
+        parts=[
+            TextPart(
+                content=json.dumps(
+                    {
+                        "severity": "P1",
+                        "affected_services": ["payment-service"],
+                        "estimated_user_impact": 5000,
+                        "confidence": 0.9,
+                        "reasoning": "High error rate.",
+                    }
+                )
+            )
+        ]
+    )
+
+
+def _context_model(_messages: list[ModelMessage], _info: AgentInfo) -> ModelResponse:
+    return ModelResponse(
+        parts=[
+            TextPart(
+                content=json.dumps(
+                    { (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_context_node:[19:36]
+==tests.unit.agents.test_context_agent:[20:37]
+        payload = {
+            "log_evidence": [
+                {
+                    "timestamp": "2024-01-15T10:29:55Z",
+                    "log_line": "ERROR: connection refused",
+                    "relevance_score": 0.92,
+                }
+            ],
+            "metric_anomalies": [
+                {
+                    "metric_name": "http_error_rate",
+                    "current_value": 0.45,
+                    "baseline_value": 0.01,
+                    "deviation_percentage": 4400.0,
+                }
+            ],
+            "recent_deployments": ["payment-service@abc123"], (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_postmortem_node:[22:35]
+==tests.unit.agents.test_postmortem_agent:[17:30]
+        payload = {
+            "incident_id": incident_id,
+            "timeline": [
+                "10:30 UTC ù Alert fired",
+                "10:31 UTC ù Triage complete",
+                "10:40 UTC ù Remediation applied",
+                "10:46 UTC ù Resolved",
+            ],
+            "root_cause_summary": "DB connection pool exhaustion.",
+            "resolution_summary": "Increased pool size and restarted service.",
+            "action_items": [
+                "Add automated pool scaling",
+                "Add pool exhaustion alert", (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_happy_path:[54:66]
+==tests.integration.nodes.test_context_node:[25:37]
+                            }
+                        ],
+                        "metric_anomalies": [
+                            {
+                                "metric_name": "http_error_rate",
+                                "current_value": 0.45,
+                                "baseline_value": 0.01,
+                                "deviation_percentage": 4400.0,
+                            }
+                        ],
+                        "recent_deployments": ["payment-service@abc123"],
+                        "summary": "DB connectivity issues.", (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_happy_path:[54:65]
+==tests.unit.agents.test_context_agent:[26:37]
+                            }
+                        ],
+                        "metric_anomalies": [
+                            {
+                                "metric_name": "http_error_rate",
+                                "current_value": 0.45,
+                                "baseline_value": 0.01,
+                                "deviation_percentage": 4400.0,
+                            }
+                        ],
+                        "recent_deployments": ["payment-service@abc123"], (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.conftest:[271:281]
+==tests.unit.agents.test_context_agent:[165:175]
+        responses={
+            "payment-service": [
+                RawLogLine(
+                    timestamp="2024-01-15T10:29:55Z",
+                    message="connection refused to postgres-primary",
+                    level="ERROR",
+                    service="payment-service",
+                )
+            ]
+        } (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[265:276]
+==tests.e2e.test_escalation_path:[246:262]
+                with patch(
+                    "iras.graph.nodes.postmortem._persist_postmortem",
+                    new_callable=AsyncMock,
+                ):
+                    await graph.ainvoke({"alert_payload": alert_payload}, config=config)
+                    final_state = await graph.ainvoke(
+                        Command(resume={"approved": False}), config=config
+                    )
+
+            assert final_state.get("escalated") is True
+            assert final_state.get("human_approved") is False (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_happy_path:[108:118]
+==tests.integration.nodes.test_remediation_node:[25:35]
+                                "rollback_command": "kubectl set env deployment/app DB_POOL_SIZE=10",
+                                "risk_level": "low",
+                                "estimated_duration_seconds": 30,
+                            }
+                        ],
+                        "estimated_total_downtime_minutes": 2,
+                        "reversible": True,
+                        "requires_human_approval": False,
+                        "summary": "Increase pool size and restart service.",
+                    } (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_context_node:[25:35]
+==tests.stress.test_real_world_scenarios:[100:110]
+                }
+            ],
+            "metric_anomalies": [
+                {
+                    "metric_name": "http_error_rate",
+                    "current_value": 0.45,
+                    "baseline_value": 0.01,
+                    "deviation_percentage": 4400.0,
+                }
+            ], (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[46:55]
+==tests.e2e.test_happy_path:[26:35]
+    return ModelResponse(
+        parts=[
+            TextPart(
+                content=json.dumps(
+                    {
+                        "severity": "P1",
+                        "affected_services": ["payment-service"],
+                        "estimated_user_impact": 5000,
+                        "confidence": 0.9, (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_happy_path:[80:89]
+==tests.integration.nodes.test_rca_node:[27:36]
+            "primary_cause": "DB connection pool exhaustion",
+            "contributing_factors": ["pool size not scaled"],
+            "evidence": [
+                {
+                    "timestamp": "2024-01-15T10:29:55Z",
+                    "log_line": "ERROR: connection refused",
+                    "relevance_score": 0.95,
+                }
+            ], (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_postmortem_node:[168:178]
+==tests.integration.test_api:[306:316]
+        mock_conn = MagicMock()
+        mock_conn.__aenter__ = AsyncMock(return_value=mock_conn)
+        mock_conn.__aexit__ = AsyncMock(return_value=None)
+        mock_cursor = MagicMock()
+        mock_cursor.__aenter__ = AsyncMock(return_value=mock_cursor)
+        mock_cursor.__aexit__ = AsyncMock(return_value=None)
+        mock_cursor.execute = AsyncMock()
+        mock_conn.cursor = MagicMock(return_value=mock_cursor)
+        mock_conn.commit = AsyncMock()
+ (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_context_node:[38:52]
+==tests.integration.nodes.test_rca_node:[39:53]
+        }
+        return ModelResponse(parts=[TextPart(content=json.dumps(payload))])
+
+    return fn
+
+
+@pytest.fixture
+def context_state(alert_payload, triage_dict) -> IncidentState:
+    return IncidentState(
+        alert_payload=alert_payload,
+        incident_id="test-001",
+        started_at="2024-01-15T10:30:00Z",
+        rca_attempts=0,
+        triage=triage_dict, (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[94:114]
+==tests.e2e.test_escalation_path:[204:223]
+                                "contributing_factors": [],
+                                "evidence": [],
+                                "confidence": 0.88,
+                                "recommended_action": "Increase pool size",
+                                "alternative_hypotheses": [],
+                            }
+                        )
+                    )
+                ]
+            )
+
+        def _plan_model(messages, info):
+            return ModelResponse(
+                parts=[
+                    TextPart(
+                        content=json.dumps(
+                            {
+                                "steps": [
+                                    { (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_rca_node:[29:37]
+==tests.stress.test_real_world_scenarios:[128:136]
+            "evidence": [
+                {
+                    "timestamp": "2024-01-15T10:29:55Z",
+                    "log_line": "ERROR: connection refused",
+                    "relevance_score": 0.95,
+                }
+            ],
+            "confidence": confidence, (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.conftest:[53:60]
+==tests.stress.test_real_world_scenarios:[291:298]
+        "title": "High error rate on payment-service",
+        "timestamp": "2024-01-15T10:30:00Z",
+        "source": "prometheus",
+        "service": "payment-service",
+        "metric": "http_error_rate",
+        "current_value": 0.45,
+        "threshold": 0.05, (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[118:125]
+==tests.e2e.test_escalation_path:[225:232]
+                                "risk_level": "low",
+                                "estimated_duration_seconds": 30,
+                            }
+                        ],
+                        "estimated_total_downtime_minutes": 2,
+                        "reversible": True,
+                        "requires_human_approval": False, (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[107:114]
+==tests.stress.test_real_world_scenarios:[1165:1172]
+            return ModelResponse(
+                parts=[
+                    TextPart(
+                        content=json.dumps(
+                            {
+                                "steps": [
+                                    { (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_escalation_path:[216:223]
+==tests.stress.test_real_world_scenarios:[1201:1208]
+            return ModelResponse(
+                parts=[
+                    TextPart(
+                        content=json.dumps(
+                            {
+                                "steps": [
+                                    { (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_escalation_path:[45:52]
+==tests.stress.test_real_world_scenarios:[770:777]
+        parts=[
+            TextPart(
+                content=json.dumps(
+                    {
+                        "log_evidence": [],
+                        "metric_anomalies": [],
+                        "recent_deployments": [], (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_context_node:[38:50]
+==tests.integration.nodes.test_remediation_node:[34:47]
+        }
+        return ModelResponse(parts=[TextPart(content=json.dumps(payload))])
+
+    return fn
+
+
+@pytest.fixture
+def plan_state(alert_payload, triage_dict, context_dict, hypothesis_dict) -> IncidentState:
+    """Return an IncidentState populated with alert, triage, context, and hypothesis data."""
+    return IncidentState(
+        alert_payload=alert_payload,
+        incident_id="test-001",
+        started_at="2024-01-15T10:30:00Z", (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.conftest:[68:74]
+==tests.stress.test_real_world_scenarios:[303:309]
+    "timestamp": "2024-01-15T03:00:00Z",
+    "source": "pagerduty",
+    "service": "postgres-primary",
+    "metric": "db_connection_errors",
+    "current_value": 100,
+    "threshold": 0, (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.conftest:[290:296]
+==tests.unit.agents.test_context_agent:[179:185]
+                metric_name="http_error_rate",
+                current_value=0.45,
+                baseline_value=0.01,
+                deviation_percentage=4400.0,
+                is_anomalous=True,
+            ) (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[240:246]
+==tests.e2e.test_happy_path:[169:178]
+            with _all_agents_mocked():
+                with patch(
+                    "iras.graph.nodes.postmortem._persist_postmortem",
+                    new_callable=AsyncMock,
+                ):
+                    await graph.ainvoke({"alert_payload": alert_payload}, config=config) (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.e2e.test_crash_recovery:[264:270]
+==tests.e2e.test_happy_path:[187:193]
+            with _all_agents_mocked():
+                with patch(
+                    "iras.graph.nodes.postmortem._persist_postmortem",
+                    new_callable=AsyncMock,
+                ):
+                    await graph.ainvoke({"alert_payload": alert_payload}, config=config) (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_postmortem_node:[197:210]
+==tests.integration.test_api:[321:334]
+            mock_cursor.execute.assert_awaited_once()
+            mock_conn.commit.assert_awaited_once()
+        finally:
+            os.environ.pop("POSTGRES_URL", None)
+            if old:
+                os.environ["POSTGRES_URL"] = old
+
+    async def test_update_status_handles_db_error(self):
+        """Covers the except branch in _update_approval_status."""
+        import os
+
+        from iras.api.routes.approval import _update_approval_status
+ (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.unit.test_tools_log_fetcher:[166:172]
+==tests.unit.test_tools_metrics:[103:109]
+            return_value=httpx.Response(
+                200,
+                json={
+                    "data": {
+                        "result": [
+                            { (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==iras.api.routes.approval:[87:111]
+==iras.graph.nodes.postmortem:[60:68]
+        return
+
+    try:
+        import psycopg
+
+        async with await psycopg.AsyncConnection.connect(postgres_url) as conn:
+            async with conn.cursor() as cur:
+                await cur.execute( (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_postmortem_node:[220:225]
+==tests.integration.test_api:[334:339]
+        old = os.environ.pop("POSTGRES_URL", None)
+        os.environ["POSTGRES_URL"] = "postgresql://test"
+        try:
+            with patch(
+                "psycopg.AsyncConnection.connect", (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_context_node:[104:109]
+==tests.integration.nodes.test_rca_node:[48:53]
+        alert_payload=alert_payload,
+        incident_id="test-001",
+        started_at="2024-01-15T10:30:00Z",
+        rca_attempts=0,
+        triage=triage_dict, (duplicate-code)
+tests\unit\agents\__init__.py:1:0: R0801: Similar lines in 2 files
+==tests.integration.nodes.test_context_node:[103:108]
+==tests.integration.nodes.test_triage_node:[33:38]
+        state = IncidentState(
+            alert_payload=alert_payload,
+            incident_id="test-001",
+            started_at="2024-01-15T10:30:00Z",
+            rca_attempts=0, (duplicate-code)
+
+-----------------------------------
+Your code has been rated at 8.21/10
+

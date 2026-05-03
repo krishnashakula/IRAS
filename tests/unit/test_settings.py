@@ -1,5 +1,6 @@
 """Unit tests for iras.config.settings."""
 
+# pylint: disable=missing-class-docstring,import-outside-toplevel,too-few-public-methods
 from __future__ import annotations
 
 

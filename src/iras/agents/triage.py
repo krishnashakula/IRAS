@@ -19,7 +19,7 @@ from typing import Any
 from pydantic_ai import Agent
 from pydantic_ai.models.anthropic import AnthropicModel
 
-from iras.agents.deps import TriageDeps as TriageDeps
+from iras.agents.deps import TriageDeps
 from iras.models.incident import TriageResult
 
 _SYSTEM_PROMPT = """You are an expert Site Reliability Engineer performing incident triage.

@@ -25,6 +25,7 @@ Scenarios covered:
   B4. Concurrent get_checkpointer() calls risk double-initialisation (no asyncio.Lock)
 """
 
+# pylint: disable=missing-function-docstring,unnecessary-lambda-assignment,too-many-lines,line-too-long,unused-argument,unused-variable,import-outside-toplevel,too-few-public-methods,unused-import,broad-exception-caught,missing-class-docstring,redefined-outer-name
 from __future__ import annotations
 
 import asyncio
@@ -40,8 +41,8 @@ import pytest
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.types import Command
 from pydantic_ai.exceptions import UnexpectedModelBehavior
-from pydantic_ai.messages import ModelMessage, ModelResponse, TextPart
-from pydantic_ai.models.function import AgentInfo, FunctionModel
+from pydantic_ai.messages import ModelResponse, TextPart
+from pydantic_ai.models.function import FunctionModel
 
 from iras.agents.context_gathering import context_agent
 from iras.agents.postmortem import postmortem_agent
@@ -52,7 +53,6 @@ from iras.graph.builder import build_graph
 from iras.graph.nodes.ingestion import ingestion_node
 from iras.graph.state import IncidentState
 from iras.models.incident import PostMortem, RemediationPlan, TriageResult
-from iras.tools.pagerduty import MockPagerDutyClient
 from iras.tools.slack import MockSlackClient
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -267,9 +267,7 @@ def _slack_patch():
     )
 
 
-async def _run_incident_to_interrupt(
-    graph, config: dict, alert: dict
-) -> dict:
+async def _run_incident_to_interrupt(graph, config: dict, alert: dict) -> dict:
     """Drive the graph to the approval interrupt and return intermediate state."""
     return await graph.ainvoke({"alert_payload": alert}, config=config)
 
@@ -483,7 +481,11 @@ class TestScenarioP0Outage:
             deployments=["postgres-primary@f4a9c3 by ops-team — 2024-01-15T02:45:00Z"]
         )
 
-        with _mock_agents(triage_fn=p0_triage, context_fn=p0_context), _persist_patch(), _slack_patch():
+        with (
+            _mock_agents(triage_fn=p0_triage, context_fn=p0_context),
+            _persist_patch(),
+            _slack_patch(),
+        ):
             mid = await _run_incident_to_interrupt(graph, config, P0_DB_ALERT)
 
         ctx = mid["context"]
@@ -517,7 +519,11 @@ class TestScenarioP2RCARetry:
 
         p2_triage = lambda m, i: _triage_resp(severity="P2", services=["worker-service"])  # noqa: E731
 
-        with _mock_agents(triage_fn=p2_triage, rca_fn=rca_retry_fn), _persist_patch(), _slack_patch():
+        with (
+            _mock_agents(triage_fn=p2_triage, rca_fn=rca_retry_fn),
+            _persist_patch(),
+            _slack_patch(),
+        ):
             await _run_incident_to_interrupt(graph, config, P2_MEMORY_ALERT)
             final = await _approve_incident(graph, config)
 
@@ -543,13 +549,15 @@ class TestScenarioP2RCARetry:
 
         p2_triage = lambda m, i: _triage_resp(severity="P2")  # noqa: E731
 
-        with _mock_agents(triage_fn=p2_triage, rca_fn=rca_count_fn), _persist_patch(), _slack_patch():
+        with (
+            _mock_agents(triage_fn=p2_triage, rca_fn=rca_count_fn),
+            _persist_patch(),
+            _slack_patch(),
+        ):
             await _run_incident_to_interrupt(graph, config, P2_MEMORY_ALERT)
             final = await _approve_incident(graph, config)
 
-        assert final["rca_attempts"] == 3, (
-            f"Expected 3 RCA attempts, got {final['rca_attempts']}"
-        )
+        assert final["rca_attempts"] == 3, f"Expected 3 RCA attempts, got {final['rca_attempts']}"
         assert final["escalated"] is False
 
 
@@ -906,10 +914,6 @@ class TestScenarioUnicodePayloads:
     @pytest.mark.parametrize("alert", UNICODE_ALERTS)
     async def test_unicode_payload_ingested_safely(self, alert: dict):
         """Payloads with unusual characters must not crash ingestion."""
-        graph = build_graph(checkpointer=None)
-        tid = f"unicode-{uuid.uuid4().hex[:8]}"
-        config = {"configurable": {"thread_id": tid}}
-
         # We only test ingestion — triage onwards would need mock agents
         state: IncidentState = {"alert_payload": alert}  # type: ignore[typeddict-item]
 
@@ -1021,7 +1025,7 @@ class TestConcurrentIncidents:
     async def _run_one_incident(self, graph, alert: dict, thread_id: str) -> dict:
         config = {"configurable": {"thread_id": thread_id}}
         with _persist_patch(), _slack_patch():
-            mid = await _run_incident_to_interrupt(graph, config, alert)
+            await _run_incident_to_interrupt(graph, config, alert)
             final = await _approve_incident(graph, config)
         return final
 
@@ -1042,10 +1046,7 @@ class TestConcurrentIncidents:
 
         with _mock_agents():
             results = await asyncio.gather(
-                *[
-                    self._run_one_incident(graph, alerts[i], thread_ids[i])
-                    for i in range(20)
-                ]
+                *[self._run_one_incident(graph, alerts[i], thread_ids[i]) for i in range(20)]
             )
 
         # Each result must have its own unique incident_id
@@ -1076,7 +1077,6 @@ class TestConcurrentIncidents:
         with _mock_agents(triage_fn=mixed_triage):
             tasks = []
             for i in range(len(severities)):
-                config = {"configurable": {"thread_id": thread_ids[i]}}
                 tasks.append(self._run_one_incident(graph, alerts[i], thread_ids[i]))
 
             results = await asyncio.gather(*tasks)
@@ -1145,7 +1145,7 @@ class TestScenarioCascadeFailure:
         )
 
         with _mock_agents(triage_fn=cascade_triage), _persist_patch(), _slack_patch():
-            mid = await _run_incident_to_interrupt(graph, config, CASCADE_ALERT)
+            await _run_incident_to_interrupt(graph, config, CASCADE_ALERT)
             final = await _approve_incident(graph, config)
 
         triage = TriageResult.model_validate(final["triage"])
@@ -1381,9 +1381,7 @@ class TestBugWebhookIdMismatch:
         app = create_app()
         app.state.graph = mock_graph
 
-        async with AsyncClient(
-            transport=ASGITransport(app=app), base_url="http://test"
-        ) as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             resp = await client.post(
                 "/webhook/alert",
                 json={
@@ -1574,9 +1572,7 @@ class TestLiveAPIStress:
 
         async with httpx.AsyncClient() as client:
             start = time.monotonic()
-            results = await asyncio.gather(
-                *[fire_alert(client, i) for i in range(50)]
-            )
+            results = await asyncio.gather(*[fire_alert(client, i) for i in range(50)])
             elapsed = time.monotonic() - start
 
         statuses = [r["status"] for r in results]
@@ -1607,13 +1603,9 @@ class TestLiveAPIStress:
             return resp.status_code
 
         async with httpx.AsyncClient() as client:
-            statuses = await asyncio.gather(
-                *[check_health(client, i) for i in range(100)]
-            )
+            statuses = await asyncio.gather(*[check_health(client, i) for i in range(100)])
 
-        assert all(s == 200 for s in statuses), (
-            f"Health endpoint returned non-200: {set(statuses)}"
-        )
+        assert all(s == 200 for s in statuses), f"Health endpoint returned non-200: {set(statuses)}"
 
     async def test_malformed_alert_returns_422(self, live_server_required):
         """The FastAPI validation layer should reject payloads missing required fields."""
@@ -1627,9 +1619,7 @@ class TestLiveAPIStress:
                 timeout=5.0,
             )
 
-        assert resp.status_code == 422, (
-            f"Expected 422 Unprocessable Entity, got {resp.status_code}"
-        )
+        assert resp.status_code == 422, f"Expected 422 Unprocessable Entity, got {resp.status_code}"
 
     async def test_oversized_payload_accepted(self, live_server_required):
         """Large payloads (within reason) must be accepted, not rejected."""

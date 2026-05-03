@@ -11,6 +11,7 @@ After generation:
 This is the terminal node — no outgoing edges.
 """
 
+# pylint: disable=import-outside-toplevel
 from __future__ import annotations
 
 import json
@@ -19,7 +20,8 @@ import os
 from datetime import UTC, datetime
 from typing import Any
 
-from iras.agents.postmortem import PostMortemDeps, run_postmortem
+from iras.agents.deps import PostMortemDeps
+from iras.agents.postmortem import run_postmortem
 from iras.graph.state import IncidentState
 from iras.tools.slack import MockSlackClient, SlackClient, SlackMessage
 

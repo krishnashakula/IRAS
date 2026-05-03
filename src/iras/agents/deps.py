@@ -20,7 +20,7 @@ from iras.tools.slack import MockSlackClient, SlackClient
 class TriageDeps:
     """Dependencies injected into the triage agent."""
 
-    pass  # Triage operates on the alert payload alone — no external tool calls.
+    # Triage operates on the alert payload alone — no external tool calls.
 
 
 @dataclass
@@ -36,21 +36,21 @@ class ContextDeps:
 class RCADeps:
     """Dependencies injected into the RCA agent."""
 
-    pass  # RCA reasons over the ContextBundle already in state — no new tool calls.
+    # RCA reasons over the ContextBundle already in state — no new tool calls.
 
 
 @dataclass
 class RemediationDeps:
     """Dependencies injected into the remediation plan agent."""
 
-    pass  # Plan generation reasons over hypothesis + context — no new tool calls.
+    # Plan generation reasons over hypothesis + context — no new tool calls.
 
 
 @dataclass
 class PostMortemDeps:
     """Dependencies injected into the post-mortem agent."""
 
-    pass  # Post-mortem synthesis reasons over the full state — no new tool calls.
+    # Post-mortem synthesis reasons over the full state — no new tool calls.
 
 
 @dataclass

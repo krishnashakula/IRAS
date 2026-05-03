@@ -1,5 +1,6 @@
 """Integration tests for the generate_plan node."""
-# pylint: disable=redefined-outer-name
+
+# pylint: disable=redefined-outer-name,reimported,import-outside-toplevel
 from __future__ import annotations
 
 import json
@@ -18,6 +19,7 @@ from iras.tools.slack import MockSlackClient
 
 def make_plan_fn():
     """Return a FunctionModel callback that produces a canned RemediationPlan response."""
+
     def fn(_messages: list[ModelMessage], _info: AgentInfo) -> ModelResponse:
         payload = {
             "steps": [
@@ -55,6 +57,7 @@ def plan_state(alert_payload, triage_dict, context_dict, hypothesis_dict) -> Inc
 
 class TestGeneratePlanNode:
     """Integration tests for the generate_plan_node graph node."""
+
     async def test_writes_remediation_plan(self, plan_state: IncidentState):
         """Node must populate the remediation_plan key in its output dict."""
         mock_slack = MockSlackClient()

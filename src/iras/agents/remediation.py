@@ -19,7 +19,7 @@ from typing import Any
 from pydantic_ai import Agent
 from pydantic_ai.models.anthropic import AnthropicModel
 
-from iras.agents.deps import RemediationDeps as RemediationDeps
+from iras.agents.deps import RemediationDeps
 from iras.models.incident import RemediationPlan
 
 _SYSTEM_PROMPT = """\

@@ -13,7 +13,8 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from iras.agents.triage import TriageDeps, run_triage
+from iras.agents.deps import TriageDeps
+from iras.agents.triage import run_triage
 from iras.graph.state import IncidentState
 
 logger = logging.getLogger(__name__)

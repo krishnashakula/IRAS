@@ -9,6 +9,7 @@ Health endpoint:
   GET /health  →  {"status": "ok", "env": "production"}
 """
 
+# pylint: disable=wrong-import-position,import-outside-toplevel
 from __future__ import annotations
 
 import asyncio
@@ -22,8 +23,8 @@ from dotenv import load_dotenv
 # Load .env before any agent/model imports so ANTHROPIC_API_KEY is in os.environ
 load_dotenv(override=False)
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -122,6 +123,7 @@ def create_app() -> FastAPI:
     )
 
     from iras.config.settings import get_settings as _get_settings
+
     _settings = _get_settings()
     _origins = (
         [o.strip() for o in _settings.cors_allowed_origins.split(",") if o.strip()]

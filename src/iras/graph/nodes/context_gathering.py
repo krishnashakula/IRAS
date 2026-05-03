@@ -12,7 +12,8 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from iras.agents.context_gathering import ContextDeps, run_context_gathering
+from iras.agents.context_gathering import run_context_gathering
+from iras.agents.deps import ContextDeps
 from iras.graph.state import IncidentState
 
 logger = logging.getLogger(__name__)
