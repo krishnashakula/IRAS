@@ -83,7 +83,7 @@ jobs:
 
       - name: Upload coverage
         if: matrix.python-version == env.PYTHON_VERSION
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v6
         with:
           files: coverage-unit.xml
           flags: unit
@@ -139,7 +139,7 @@ jobs:
             -p no:cacheprovider
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v6
         with:
           files: coverage-integration.xml
           flags: integration
