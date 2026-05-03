@@ -33,7 +33,7 @@ COPY pyproject.toml README.md ./
 COPY src/ src/
 
 RUN pip install --upgrade pip && \
-    pip wheel --no-deps --wheel-dir /wheels .
+    pip wheel --wheel-dir /wheels .
 
 # ─── Runtime stage: minimal final image ──────────────────────────────────────
 FROM base AS runtime

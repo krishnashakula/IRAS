@@ -43,6 +43,7 @@ docker-compose*.yml
 # Docs
 docs/
 *.md
+!README.md
 
 # OS
 .DS_Store
