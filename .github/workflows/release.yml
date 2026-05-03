@@ -201,7 +201,7 @@ jobs:
           fetch-depth: 0   # full history for changelog
 
       - name: Download dist artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: dist-${{ needs.validate-version.outputs.version }}
           path: dist/
