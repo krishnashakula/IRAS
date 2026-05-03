@@ -1,0 +1,77 @@
+# ── Secrets ────────────────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# ── Python ─────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+wheels/
+*.whl
+
+# ── Virtual environments ────────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.virtualenv/
+
+# ── Testing & coverage ─────────────────────────────────────────────────────────
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.pytest_cache/
+.tox/
+nosetests.xml
+test-results/
+full_test_out.txt
+test_out.txt
+
+# ── Type checkers ──────────────────────────────────────────────────────────────
+.mypy_cache/
+.pytype/
+.pyre/
+
+# ── Linters / formatters ───────────────────────────────────────────────────────
+.ruff_cache/
+
+# ── IDEs ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Logs ───────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Docker ─────────────────────────────────────────────────────────────────────
+docker-compose.override.yml
+
+# ── Database ───────────────────────────────────────────────────────────────────
+*.sqlite3
+*.db
+
+# ── Misc ───────────────────────────────────────────────────────────────────────
+*.bak
+*.tmp
+.cache/
