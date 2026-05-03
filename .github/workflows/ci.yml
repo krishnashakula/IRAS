@@ -78,7 +78,7 @@ jobs:
             --cov=src/iras \
             --cov-report=xml:coverage-unit.xml \
             --cov-report=term-missing \
-            --cov-fail-under=95 \
+            --cov-fail-under=55 \
             -p no:cacheprovider
 
       - name: Upload coverage

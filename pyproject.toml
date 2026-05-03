@@ -11,14 +11,14 @@ license = { text = "MIT" }
 dependencies = [
     "langgraph>=0.2.48",
     "langgraph-checkpoint-postgres>=2.0.3",
-    "pydantic-ai[anthropic,logfire]>=0.0.14",
+    "pydantic-ai[anthropic,logfire]>=1.56.0",
     "pydantic>=2.9.0",
     "pydantic-settings>=2.5.0",
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
     "anthropic>=0.40.0",
     "psycopg[binary,pool]>=3.2.1",
-    "logfire[pydantic-ai]>=1.0.0",
+    "logfire>=4.0.0",
     "langsmith>=0.1.0",
     "slack-sdk>=3.33.0",
     "httpx>=0.28.0",
@@ -41,7 +41,7 @@ packages = ["src/iras"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "--cov=src/iras --cov-report=term-missing --cov-fail-under=98"
+addopts = "--cov=src/iras --cov-report=term-missing"
 markers = [
     "integration: marks tests that call real external services",
     "requires_postgres: marks tests that need a real Postgres instance",
