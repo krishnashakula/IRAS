@@ -1,0 +1,80 @@
+version: "3.9"
+
+# ── Shared base for the IRAS service ──────────────────────────────────────────
+x-iras-env: &iras-env
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:?ANTHROPIC_API_KEY is required}
+  POSTGRES_URL: postgresql://iras:secret@postgres:5432/iras
+  SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN:-xoxb-local-placeholder}
+  SLACK_ONCALL_CHANNEL_ID: ${SLACK_ONCALL_CHANNEL_ID:-C00000TEST}
+  PAGERDUTY_INTEGRATION_KEY: ${PAGERDUTY_INTEGRATION_KEY:-pd-local-placeholder}
+  PROMETHEUS_BASE_URL: ${PROMETHEUS_BASE_URL:-http://prometheus:9090}
+  LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-ls-local-placeholder}
+  LOGFIRE_TOKEN: ${LOGFIRE_TOKEN:-pylf-local-placeholder}
+  WEBHOOK_SECRET: ${WEBHOOK_SECRET:-}
+  APPROVAL_API_KEY: ${APPROVAL_API_KEY:-}
+  CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*}
+  LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+services:
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: iras
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: iras
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "iras", "-d", "iras"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  # ── IRAS API (production image) ──────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: iras:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      <<: *iras-env
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ── IRAS API (dev — hot reload via volume mount) ─────────────────────────────
+  api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: iras:dev
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      <<: *iras-env
+    volumes:
+      - ./src:/app/src:ro
+      - ./tests:/app/tests:ro
+    ports:
+      - "8001:8000"
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:

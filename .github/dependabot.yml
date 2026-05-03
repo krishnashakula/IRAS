@@ -1,0 +1,44 @@
+version: 2
+
+updates:
+  # ── Python / pip ─────────────────────────────────────────────────────────────
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - python
+    groups:
+      # Batch minor + patch bumps into a single PR to reduce noise
+      all-python-minor-patch:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # Don't auto-bump LangGraph / LangChain majors — breaking changes
+      - dependency-name: "langgraph*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "langchain*"
+        update-types: ["version-update:semver-major"]
+
+  # ── GitHub Actions ────────────────────────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - ci
+    groups:
+      all-actions-patch:
+        update-types:
+          - patch

@@ -1,0 +1,223 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main, "feat/**", "fix/**", "chore/**"]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.13"
+  # Fake key — unit tests mock all Anthropic calls
+  ANTHROPIC_API_KEY: "sk-ant-ci-placeholder"
+  LANGSMITH_API_KEY: "ls-ci-placeholder"
+  LOGFIRE_TOKEN: "pylf-ci-placeholder"
+  SLACK_BOT_TOKEN: "xoxb-ci-placeholder"
+  SLACK_ONCALL_CHANNEL_ID: "C00000TEST"
+  PAGERDUTY_INTEGRATION_KEY: "pd-ci-placeholder"
+  PROMETHEUS_BASE_URL: "http://localhost:9090"
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Lint & type-check (fast, no DB required)
+  # ─────────────────────────────────────────────────────────────────────────────
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dev dependencies
+        run: pip install --upgrade pip && pip install -e ".[dev]" ruff mypy
+
+      - name: Ruff lint
+        run: ruff check src/ tests/
+
+      - name: Ruff format check
+        run: ruff format --check src/ tests/
+
+      - name: Mypy static analysis
+        run: mypy src/iras/ --ignore-missing-imports
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Unit tests (no external services)
+  # ─────────────────────────────────────────────────────────────────────────────
+  unit:
+    name: Unit Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install --upgrade pip && pip install -e ".[dev]"
+
+      - name: Run unit tests
+        run: |
+          python -m pytest tests/unit \
+            -q --tb=short \
+            --cov=src/iras \
+            --cov-report=xml:coverage-unit.xml \
+            --cov-report=term-missing \
+            --cov-fail-under=95 \
+            -p no:cacheprovider
+
+      - name: Upload coverage
+        if: matrix.python-version == env.PYTHON_VERSION
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage-unit.xml
+          flags: unit
+          name: unit-coverage
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Integration tests (requires Postgres)
+  # ─────────────────────────────────────────────────────────────────────────────
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: unit
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: iras
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: iras
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U iras -d iras"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      POSTGRES_URL: "postgresql://iras:secret@localhost:5432/iras"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install --upgrade pip && pip install -e ".[dev]"
+
+      - name: Run integration tests
+        run: |
+          python -m pytest tests/integration \
+            -q --tb=short \
+            --cov=src/iras \
+            --cov-report=xml:coverage-integration.xml \
+            --cov-report=term-missing \
+            --cov-fail-under=60 \
+            -p no:cacheprovider
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage-integration.xml
+          flags: integration
+          name: integration-coverage
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Security audit
+  # ─────────────────────────────────────────────────────────────────────────────
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install pip-audit
+        run: pip install --upgrade pip pip-audit
+
+      - name: Audit dependencies for CVEs
+        run: pip-audit --requirement <(pip install -e ".[dev]" --dry-run -q 2>&1 | grep "^Collecting" | awk '{print $2}') || true
+
+      - name: Audit installed packages
+        run: |
+          pip install -e ".[dev]" -q
+          pip-audit --skip-editable
+
+      - name: Check for secrets in code
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --only-verified
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Docker build validation
+  # ─────────────────────────────────────────────────────────────────────────────
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: iras:ci-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            VCS_REF=${{ github.sha }}
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # All-green gate (branch protection target)
+  # ─────────────────────────────────────────────────────────────────────────────
+  ci-pass:
+    name: CI Pass
+    runs-on: ubuntu-latest
+    needs: [lint, unit, integration, security, docker]
+    if: always()
+    steps:
+      - name: Check all jobs passed
+        run: |
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
+            echo "One or more CI jobs failed."
+            exit 1
+          fi
+          echo "All CI jobs passed."
