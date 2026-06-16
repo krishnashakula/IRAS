@@ -1,0 +1,8 @@
+# All files — repo owner is required reviewer on every PR
+* @krishnashakula
+
+# CI/CD and infrastructure changes need extra scrutiny
+.github/ @krishnashakula
+Dockerfile* @krishnashakula
+docker-compose*.yml @krishnashakula
+pyproject.toml @krishnashakula
