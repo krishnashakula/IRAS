@@ -1,12 +1,13 @@
 ﻿<div align="center">
 
-<h1>⚡ IRAS</h1>
-<h3>Intelligent Incident Response Agent System</h3>
+# ⚡ IRAS
 
-<p><em>Autonomous AI agents that triage, investigate, remediate, and document production incidents — with a human in the loop.</em></p>
+### Your on-call engineer gets woken up at 3 AM.
+### IRAS already found the root cause, wrote a remediation plan, and is waiting for your approval.
 
 <br/>
 
+[![CI](https://github.com/krishnashakula/IRAS/actions/workflows/ci.yml/badge.svg)](https://github.com/krishnashakula/IRAS/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![LangGraph](https://img.shields.io/badge/LangGraph-0.2%2B-FF6B35?style=flat-square)](https://langchain-ai.github.io/langgraph/)
@@ -18,49 +19,135 @@
 
 <br/>
 
-[**Quick Start**](#-quick-start) · [**How It Works**](#-how-it-works) · [**Architecture**](#-architecture) · [**API Reference**](#-api-reference) · [**Configuration**](#-configuration) · [**Contributing**](#-contributing)
+[**Quick Start**](#-quick-start) · [**How It Works**](#-how-it-works) · [**We Don't Trust the Model**](#-we-dont-trust-the-model) · [**Architecture**](#-architecture) · [**Configuration**](#-configuration) · [**Contributing**](#-contributing)
 
 </div>
 
 ---
 
-## What Is IRAS?
+## The Problem
 
-When a production alert fires at 3 AM, IRAS handles the full first-response lifecycle automatically:
+You've been there. 3 AM. PagerDuty fires. You stumble to your laptop, squint at a graph, dig through logs, cross-reference a recent deployment, form a hypothesis, write a Slack message, wait for approval, apply a fix, then spend an hour writing a post-mortem that nobody reads.
 
-1. **Ingests** the alert from any monitoring system (Prometheus AlertManager, PagerDuty, Datadog, etc.)
-2. **Triages** severity (P0–P3) and identifies affected services using Claude Haiku
-3. **Gathers context** — logs from Elasticsearch/Loki, metrics from Prometheus, recent deployments from GitHub
-4. **Runs root-cause analysis** with Claude Sonnet, retrying with broader context if confidence is too low
-5. **Generates a step-by-step remediation plan** with rollback commands for every step
-6. **Pauses for human approval** via a Slack message with Approve/Reject buttons
-7. **Applies the fix** if approved, or **pages on-call** via PagerDuty if rejected or confidence exhausted
-8. **Writes a structured post-mortem** — timeline, root cause, resolution, action items — stored in PostgreSQL and posted to Slack
+Every single time.
 
-Every agent output is **type-safe** — no raw strings, only validated Pydantic models.  
-Every graph run is **persisted in PostgreSQL** so it survives restarts and can be resumed across processes.
+IRAS does all of that — automatically, in under 2 minutes — and only wakes you up to press Approve.
 
 ---
 
-## Demo
+## Quick Start
+
+> No Slack token? No PagerDuty key? No problem. Everything falls back to mock clients. You only need an Anthropic API key and Docker.
+
+```bash
+# 1. Clone
+git clone https://github.com/krishnashakula/IRAS.git && cd IRAS
+
+# 2. Start Postgres
+docker run -d --name iras-postgres \
+  -e POSTGRES_USER=iras -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=iras \
+  -p 5432:5432 postgres:16
+
+# 3. Install
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+
+# 4. Configure (only two fields required)
+cp .env.example .env
+# Set ANTHROPIC_API_KEY and POSTGRES_URL
+
+# 5. Run
+python run.py
+```
 
 ```
-Alert: "High error rate on payment-service — http_error_rate: 45% (threshold: 5%)"
+INFO  IRAS graph compiled and ready
+INFO  Uvicorn running on http://0.0.0.0:8000
+```
 
-[10:30:01] IRAS      ▶ Ingested incident abc12345
-[10:30:02] Triage    ▶ P1 | payment-service | ~5,000 users affected | confidence: 0.9
-[10:30:04] Context   ▶ DB connection errors in logs, deployment 2m before alert
-[10:30:07] RCA       ▶ DB connection pool exhausted after canary deploy | confidence: 0.88 ✓
-[10:30:09] Plan      ▶ 3-step remediation | low risk | rollback commands ready
-[10:30:09] Slack     ▶ Sent approval request to #incidents  [Approve] [Reject]
+```bash
+# Fire an alert
+curl -X POST http://localhost:8000/webhook/alert \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "High error rate on payment-service",
+    "timestamp": "2026-05-03T10:30:00Z",
+    "service": "payment-service",
+    "error_rate": 0.45
+  }'
 
-  ... on-call engineer reviews and clicks Approve (1m 35s later) ...
+# → {"incident_id": "550e8400-...", "status": "processing"}
 
-[10:31:44] Applying  ▶ Step 1/3 — increase DB_POOL_SIZE from 10 to 50
-[10:31:45] Applying  ▶ Step 2/3 — rolling restart payment-service pods
-[10:31:45] Applying  ▶ Step 3/3 — verify error rate dropped below 2%
-[10:31:46] PostMort. ▶ Written and posted to #incidents
-[10:31:46] Resolved  ▶ Total response time: 1m 45s
+# Watch it work in your terminal, then approve
+curl -X POST http://localhost:8000/incidents/550e8400-.../approve
+```
+
+---
+
+## How It Works
+
+IRAS runs a **9-node LangGraph state machine**. Each stage produces a typed Pydantic model — no raw strings, no prompt output you have to parse.
+
+```
+Alert → Triage → Context → RCA → Plan → [YOU] → Apply → Post-mortem
+                    ↑         ↓
+                    └── retry if confidence < 0.7
+```
+
+**Stage 1 — Ingest**: Any JSON webhook with `title` + `timestamp` is accepted. PagerDuty, Prometheus AlertManager, Datadog, Grafana — or a raw `curl`. Extra fields pass straight through to the AI.
+
+**Stage 2 — Triage** *(Claude Haiku)*: P0–P3 severity, affected services, estimated blast radius, confidence score. Fast and cheap — Haiku is used here intentionally.
+
+**Stage 3 — Context Gathering** *(Claude Haiku + tool calls)*: Three parallel tool calls:
+- `fetch_logs` → error/warning lines from Elasticsearch or Loki
+- `fetch_metrics` → current vs. 7-day baseline from Prometheus
+- `fetch_deployments` → recent GitHub Deployments for the affected service
+
+**Stage 4 — Root Cause Analysis** *(Claude Sonnet)*: Produces a `RootCauseHypothesis` with `primary_cause`, `contributing_factors`, `evidence` (specific log lines), and a `confidence` score.
+
+Confidence gate: if score < 0.7, the graph loops back to context-gathering for a broader evidence window. After `RCA_MAX_ATTEMPTS`, it escalates automatically.
+
+**Stage 5 — Remediation Planning** *(Claude Sonnet)*: Ordered steps with human-readable descriptions, exact rollback commands, risk levels, and estimated durations.
+
+**Stage 6 — Human Approval** *(you)*: LangGraph's `interrupt()` pauses the graph. State is checkpointed to PostgreSQL — the server can restart and the incident survives. You get a Slack message with Approve / Reject buttons, or hit the API directly.
+
+**Stage 7 — Apply Remediation**: Steps execute sequentially. On failure, completed steps roll back in reverse order using their stored `rollback_command`.
+
+**Stage 8 — Post-mortem** *(Claude Sonnet)*: Timeline, root cause, resolution, action items. Written regardless of outcome — resolved or escalated. Stored in PostgreSQL, posted to Slack.
+
+---
+
+## We Don't Trust the Model
+
+Most AI agent projects trust the model's output at face value. IRAS doesn't.
+
+**Safety invariants enforced in code, not prompts:**
+
+```python
+# The model cannot generate an unsafe plan that bypasses approval.
+# These checks run regardless of what the model returns.
+
+if any(step.risk_level == "high" for step in plan.steps):
+    plan.requires_human_approval = True          # forced
+
+if any(not step.rollback_command.strip() for step in plan.steps):
+    plan.reversible = False                       # forced
+    plan.requires_human_approval = True          # forced
+```
+
+**292 tests, 99% coverage** — including adversarial scenarios specifically designed to test model misbehavior:
+
+- Model lies about `risk_level` → safety override catches it
+- Model returns empty `rollback_command` → plan blocked
+- All context tools fail simultaneously → graceful degradation, not crash
+- 20 concurrent incidents → zero state contamination
+- Unicode, XSS, 10,000-character payloads → handled cleanly
+- Model confidence never reaches threshold → automatic PagerDuty escalation
+
+```bash
+pytest -q                          # 292 tests, ~30s
+pytest tests/stress/ -v --no-cov  # adversarial scenarios
+pytest --cov=src/iras --cov-report=html  # 99% coverage report
 ```
 
 ---
@@ -127,71 +214,25 @@ graph TB
     Graph --> DB
 ```
 
-### Graph Execution Flow
+### The Interrupt Pattern
 
-```mermaid
-flowchart LR
-    START(( START )) --> ING
+The most technically interesting part of IRAS is how it handles the human-in-the-loop approval step.
 
-    ING["`**ingestion**
-    Validate payload
-    Stamp UUID + time
-    Init state`"]
+Most agent frameworks fake this with polling or timeouts. LangGraph's `interrupt()` is different: the graph **genuinely pauses mid-execution**, serializes its entire state to PostgreSQL, and resumes from exactly that point when the human responds — even across server restarts, deployments, or process crashes.
 
-    ING --> TRI["`**triage**
-    Claude Haiku
-    P0–P3 severity
-    Affected services`"]
+```python
+# The graph pauses here. State is in Postgres.
+# The server can restart. The incident is safe.
+human_decision = interrupt({"message": "Approve remediation plan?"})
 
-    TRI --> CTX["`**context_gathering**
-    Claude Haiku
-    Fetch logs
-    Fetch metrics
-    Fetch deployments`"]
-
-    CTX --> RCA["`**rca**
-    Claude Sonnet
-    Root cause
-    Confidence score`"]
-
-    RCA -->|"conf >= 0.7"| GEN["`**generate_plan**
-    Claude Sonnet
-    Remediation steps
-    Rollback commands
-    Notify Slack`"]
-
-    RCA -->|"conf < 0.7
-    attempts < 3"| CTX
-
-    RCA -->|"attempts = 3"| ESC
-
-    GEN --> APP["`**approval** ⏸
-    LangGraph interrupt
-    Awaits human via
-    POST /approve`"]
-
-    APP -->|"approved=True"| REM["`**apply_remediation**
-    Execute each step
-    Rollback on failure`"]
-
-    APP -->|"approved=False"| ESC["`**escalation**
-    PagerDuty trigger
-    Slack alert`"]
-
-    REM --> PM["`**postmortem**
-    Claude Sonnet
-    Timeline + RCA
-    Action items
-    Persist to DB`"]
-
-    ESC --> PM
-    PM --> END(( END ))
-
-    style APP fill:#ff9800,color:#000
-    style ESC fill:#f44336,color:#fff
-    style REM fill:#4caf50,color:#fff
-    style PM fill:#2196f3,color:#fff
+# Resumes here when POST /incidents/{id}/approve is called.
+if human_decision["approved"]:
+    return apply_remediation(state)
+else:
+    return escalate(state)
 ```
+
+This is why IRAS is built on LangGraph and not a simpler framework. Durable execution matters for production incident response.
 
 ### Request Lifecycle
 
@@ -256,328 +297,96 @@ IRAS/
 │   │   ├── checkpointer.py           # AsyncPostgresSaver (singleton + asyncio.Lock)
 │   │   ├── state.py                  # IncidentState TypedDict
 │   │   └── nodes/
-│   │       ├── ingestion.py          # Validate payload, stamp UUID + timestamp
-│   │       ├── triage.py             # → triage_agent (Claude Haiku)
-│   │       ├── context_gathering.py  # → context_agent + tool calls
-│   │       ├── rca.py                # → rca_agent + retry routing
-│   │       ├── generate_plan.py      # → remediation_agent + Slack notify
-│   │       ├── approval.py           # interrupt() human-in-the-loop checkpoint
+│   │       ├── ingestion.py
+│   │       ├── triage.py             # → Claude Haiku
+│   │       ├── context_gathering.py  # → Claude Haiku + tool calls
+│   │       ├── rca.py                # → Claude Sonnet + retry routing
+│   │       ├── generate_plan.py      # → Claude Sonnet + Slack notify
+│   │       ├── approval.py           # interrupt() — durable human checkpoint
 │   │       ├── apply_remediation.py  # Execute steps + rollback on failure
-│   │       ├── escalation.py         # PagerDuty trigger + Slack escalation
-│   │       └── postmortem.py         # → postmortem_agent + persist to DB
+│   │       ├── escalation.py         # PagerDuty + Slack
+│   │       └── postmortem.py         # → Claude Sonnet + persist to DB
 │   │
-│   ├── agents/
-│   │   ├── triage.py                 # Claude Haiku — fast severity classification
-│   │   ├── context_gathering.py      # Claude Haiku — tool-calling context agent
-│   │   ├── rca.py                    # Claude Sonnet — deep root cause analysis
-│   │   ├── remediation.py            # Claude Sonnet — step-by-step plan generation
-│   │   ├── postmortem.py             # Claude Sonnet — structured post-mortem
-│   │   └── deps.py                   # Dependency injection dataclasses
-│   │
-│   ├── models/
-│   │   └── incident.py               # TriageResult · ContextBundle · RootCauseHypothesis
+│   ├── agents/                       # One Pydantic AI agent per stage
+│   ├── models/                       # TriageResult · ContextBundle · RootCauseHypothesis
 │   │                                 # RemediationPlan · RemediationStep · PostMortem
-│   │
-│   ├── tools/
-│   │   ├── log_fetcher.py            # Elasticsearch + Loki HTTP clients
-│   │   ├── metrics.py                # Prometheus HTTP client
-│   │   ├── deployment.py             # GitHub Deployments API client
-│   │   ├── slack.py                  # Slack SDK wrapper + MockSlackClient
-│   │   └── pagerduty.py              # PagerDuty Events API v2 + MockPagerDutyClient
-│   │
-│   └── config/
-│       └── settings.py               # Pydantic Settings — reads .env
+│   ├── tools/                        # Elasticsearch · Loki · Prometheus · GitHub · Slack · PagerDuty
+│   └── config/settings.py            # Pydantic Settings — reads .env
 │
 ├── tests/
-│   ├── unit/                         # Fully mocked, no external calls
-│   ├── integration/                  # Live service tests (opt-in markers)
+│   ├── unit/                         # Fully mocked
+│   ├── integration/                  # Live service tests (opt-in)
 │   ├── e2e/                          # Full graph runs with MemorySaver
 │   └── stress/                       # 47 adversarial + real-world scenarios
-│
-├── .env.example                      # Environment variable template
-├── pyproject.toml                    # Project metadata + dependencies
-└── run.py                            # Development server launcher
 ```
 
 ---
 
-## 🚀 Quick Start
+## Severity & Escalation
 
-### Prerequisites
-
-- Python 3.11+
-- Docker (for PostgreSQL)
-- An [Anthropic API key](https://console.anthropic.com/)
-
-### 1 — Clone and install
-
-```bash
-git clone https://github.com/your-org/iras.git
-cd iras
-
-python -m venv .venv
-source .venv/bin/activate        # Linux/macOS
-# .\.venv\Scripts\Activate.ps1  # Windows PowerShell
-
-pip install -e ".[dev]"
-```
-
-### 2 — Start PostgreSQL
-
-```bash
-docker run -d --name iras-postgres \
-  -e POSTGRES_USER=iras \
-  -e POSTGRES_PASSWORD=secret \
-  -e POSTGRES_DB=iras \
-  -p 5432:5432 \
-  postgres:16
-```
-
-### 3 — Configure environment
-
-```bash
-cp .env.example .env
-# Open .env and set ANTHROPIC_API_KEY and POSTGRES_URL at minimum.
-# All other integrations fall back to mock clients automatically.
-```
-
-### 4 — Start the server
-
-```bash
-python run.py
-```
-
-```
-INFO  IRAS graph compiled and ready
-INFO  Uvicorn running on http://0.0.0.0:8000
-```
-
-### 5 — Fire your first alert
-
-```bash
-curl -X POST http://localhost:8000/webhook/alert \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "High error rate on payment-service",
-    "timestamp": "2026-05-03T10:30:00Z",
-    "service": "payment-service",
-    "error_rate": 0.45
-  }'
-```
-
-```json
-{"incident_id": "550e8400-e29b-41d4-a716-446655440000", "status": "processing"}
-```
-
-### 6 — Approve the remediation plan
-
-```bash
-curl -X POST http://localhost:8000/incidents/550e8400-e29b-41d4-a716-446655440000/approve
-```
-
-The graph resumes, applies the fix, writes the post-mortem, and closes the incident.
-
----
-
-## How It Works
-
-### 1 · Alert Ingestion
-
-Any JSON webhook with `title` and `timestamp` fields is accepted. Extra fields — Prometheus labels, error messages, stack traces, deployment annotations — are passed through transparently to the AI agents.
-
-A single UUID is pre-generated and used simultaneously as the HTTP response `incident_id`, the LangGraph `thread_id`, and the initial state `incident_id`. Callers always use the same ID returned from the webhook to approve or reject later.
-
-### 2 · Triage (Claude Haiku)
-
-Fast classification: P0–P3 severity, affected services, estimated user impact, and confidence score.
-
-| Severity | Meaning | Auto-escalation after |
+| Severity | Meaning | Approval window |
 |---|---|---|
-| P0 | Complete outage | 15 minutes |
+| P0 | Complete outage | 15 minutes, then auto-escalate |
 | P1 | Major degradation | 2 hours |
 | P2 | Partial degradation | 2 hours |
 | P3 | Warning / informational | 2 hours |
 
-### 3 · Context Gathering (Claude Haiku + Tools)
+Escalation is triggered when: RCA confidence never reaches threshold after max retries · Human rejects the plan · Approval timeout expires.
 
-The context agent calls three tools and bundles the results into a typed `ContextBundle`:
-
-| Tool | Source | Fetches |
-|---|---|---|
-| `fetch_logs` | Elasticsearch or Loki | Error/warning lines around the alert time |
-| `fetch_metrics` | Prometheus | Current vs. 7-day baseline for relevant metrics |
-| `fetch_deployments` | GitHub Deployments API | Service deployments in the last 24 hours |
-
-### 4 · Root Cause Analysis (Claude Sonnet)
-
-Produces a `RootCauseHypothesis` with `primary_cause`, `contributing_factors`, `evidence` (specific log lines), and a `confidence` score (0–1).
-
-**Confidence-gated retry loop:**
-- `confidence >= 0.7` → proceed to remediation planning
-- `confidence < 0.7`, attempts < `RCA_MAX_ATTEMPTS` → loop back to context-gathering for broader evidence
-- attempts exhausted → automatic escalation via PagerDuty
-
-### 5 · Remediation Planning (Claude Sonnet)
-
-Generates a typed `RemediationPlan` with ordered steps, each containing:
-
-```
-action             — human-readable description
-rollback_command   — exact command to undo this step
-risk_level         — low | medium | high
-estimated_duration — seconds
-```
-
-**Safety invariants enforced regardless of model output:**
-- Any step with `risk_level = "high"` → `requires_human_approval` forced to `True`
-- Any step with a whitespace-only `rollback_command` → plan marked `reversible = False` and `requires_human_approval = True`
-
-### 6 · Human-in-the-Loop Approval
-
-LangGraph's `interrupt()` pauses the graph. The full state is checkpointed to PostgreSQL. The graph resumes when the on-call engineer calls:
-
-```
-POST /incidents/{id}/approve   →  proceeds to apply remediation
-POST /incidents/{id}/reject    →  routes to manual escalation
-```
-
-A background timeout monitor triggers automatic escalation if no decision arrives within the SLA window.
-
-### 7 · Apply Remediation
-
-Steps are executed sequentially. On failure at any step, all completed steps are rolled back in reverse order using their `rollback_command`.
-
-### 8 · Escalation
-
-Triggered when:
-- RCA confidence never reached threshold after `RCA_MAX_ATTEMPTS` retries
-- Human rejected the remediation plan
-- Approval timeout expired
-
-IRAS fires an idempotent PagerDuty incident and posts a structured Slack message with full context (severity, root cause, RCA attempts, rejection reason).
-
-### 9 · Post-Mortem (Claude Sonnet)
-
-Always runs — whether the incident was resolved or escalated. Produces a `PostMortem` with timeline, root cause summary, resolution summary, and action items. Stored in PostgreSQL and posted to the incident Slack channel.
+On escalation: idempotent PagerDuty incident fires + structured Slack message with full context. Post-mortem always runs — resolved or not.
 
 ---
 
 ## Configuration
 
-Copy `.env.example` to `.env`:
-
 ```bash
 cp .env.example .env
 ```
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `ANTHROPIC_API_KEY` | ✅ | — | Claude API key (`sk-ant-...`) |
-| `POSTGRES_URL` | ✅ | — | `postgresql://user:pass@host:5432/db` |
-| `SLACK_BOT_TOKEN` | ⬜ | mock | Slack bot token (`xoxb-...`) |
-| `SLACK_ONCALL_CHANNEL_ID` | ⬜ | mock | Slack channel ID for on-call alerts |
-| `PAGERDUTY_INTEGRATION_KEY` | ⬜ | mock | PagerDuty Events API v2 key |
-| `PROMETHEUS_BASE_URL` | ⬜ | mock | `http://prometheus:9090` |
-| `ELASTICSEARCH_BASE_URL` | ⬜ | — | Pick one log backend |
-| `LOKI_BASE_URL` | ⬜ | — | Pick one log backend |
-| `LANGSMITH_API_KEY` | ⬜ | disabled | LangSmith graph tracing |
-| `LANGSMITH_PROJECT` | ⬜ | `iras` | LangSmith project name |
-| `LOGFIRE_TOKEN` | ⬜ | disabled | Logfire agent tracing |
-| `RCA_CONFIDENCE_THRESHOLD` | ⬜ | `0.7` | Min confidence to proceed to planning |
-| `RCA_MAX_ATTEMPTS` | ⬜ | `3` | Max RCA retries before escalation |
-| `APPROVAL_TIMEOUT_P0_MINUTES` | ⬜ | `15` | P0 approval window in minutes |
-| `APPROVAL_TIMEOUT_DEFAULT_MINUTES` | ⬜ | `120` | P1–P3 approval window in minutes |
-| `APP_ENV` | ⬜ | `development` | `development` or `production` |
-| `LOG_LEVEL` | ⬜ | `INFO` | `DEBUG` / `INFO` / `WARNING` |
+| Variable | Required | Description |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | ✅ | Claude API key (`sk-ant-...`) |
+| `POSTGRES_URL` | ✅ | `postgresql://user:pass@host:5432/db` |
+| `SLACK_BOT_TOKEN` | ⬜ | Falls back to mock client if unset |
+| `SLACK_ONCALL_CHANNEL_ID` | ⬜ | Slack channel for on-call alerts |
+| `PAGERDUTY_INTEGRATION_KEY` | ⬜ | Falls back to mock client if unset |
+| `PROMETHEUS_BASE_URL` | ⬜ | Falls back to mock client if unset |
+| `ELASTICSEARCH_BASE_URL` | ⬜ | Pick one log backend |
+| `LOKI_BASE_URL` | ⬜ | Pick one log backend |
+| `LANGSMITH_API_KEY` | ⬜ | LangSmith graph tracing |
+| `LOGFIRE_TOKEN` | ⬜ | Logfire agent tracing |
+| `RCA_CONFIDENCE_THRESHOLD` | ⬜ | Default: `0.7` |
+| `RCA_MAX_ATTEMPTS` | ⬜ | Default: `3` |
+| `APPROVAL_TIMEOUT_P0_MINUTES` | ⬜ | Default: `15` |
+| `APPROVAL_TIMEOUT_DEFAULT_MINUTES` | ⬜ | Default: `120` |
 
-> Optional integrations automatically fall back to mock clients when tokens are missing. IRAS runs fully end-to-end with only `ANTHROPIC_API_KEY` + `POSTGRES_URL`.
+> **All integrations fall back to mock clients when tokens are absent.** IRAS runs fully end-to-end with only `ANTHROPIC_API_KEY` + `POSTGRES_URL`.
 
 ---
 
 ## API Reference
 
+### `POST /webhook/alert`
+
+Accepts any JSON with `title` + `timestamp`. All extra fields pass through to the AI agents.
+
+```json
+{ "title": "High error rate on payment-service", "timestamp": "2026-05-03T10:30:00Z" }
+```
+```json
+{ "incident_id": "550e8400-...", "status": "processing" }
+```
+
+### `POST /incidents/{id}/approve`
+### `POST /incidents/{id}/reject`
+
+Resumes the paused graph. Approve routes to remediation. Reject routes to PagerDuty escalation.
+
 ### `GET /health`
 
 ```json
-{"status": "ok", "env": "development"}
+{ "status": "ok", "env": "development" }
 ```
-
----
-
-### `POST /webhook/alert`
-
-Ingests an alert and starts the autonomous response workflow in the background.
-
-**Body** (minimum — all extra fields pass through to the AI agents):
-```json
-{
-  "title": "High error rate on payment-service",
-  "timestamp": "2026-05-03T10:30:00Z"
-}
-```
-
-**Response `202 Accepted`:**
-```json
-{"incident_id": "550e8400-e29b-41d4-a716-446655440000", "status": "processing"}
-```
-
----
-
-### `POST /incidents/{incident_id}/approve`
-
-Approves the pending remediation plan. Resumes the paused graph.
-
-**Response `200 OK`:**
-```json
-{"incident_id": "550e8400...", "decision": "approved", "status": "resumed"}
-```
-
----
-
-### `POST /incidents/{incident_id}/reject`
-
-Rejects the plan. Routes to PagerDuty escalation.
-
-**Response `200 OK`:**
-```json
-{"incident_id": "550e8400...", "decision": "rejected", "status": "resumed"}
-```
-
----
-
-## Running Tests
-
-```bash
-# Full suite (292 tests)
-pytest -q
-
-# Unit + integration only (fast)
-pytest tests/unit tests/integration -q --no-cov
-
-# Stress + adversarial scenarios
-pytest tests/stress/ -v --no-cov
-
-# Single scenario class
-pytest tests/stress/test_real_world_scenarios.py::TestScenarioP0Outage -v --no-cov
-
-# HTML coverage report
-pytest --cov=src/iras --cov-report=html && open htmlcov/index.html
-```
-
-**292 tests, 99%+ coverage, 0 failures**
-
-The test suite covers:
-- P0–P3 happy paths end-to-end with `MemorySaver`
-- RCA retry loops (confidence below threshold for N-1 attempts)
-- Human rejection → PagerDuty escalation
-- Plan generation failure → skip approval → escalation
-- All context tools failing simultaneously (graceful degradation)
-- 20 concurrent incidents with zero state contamination
-- 50 sequential incidents throughput benchmark
-- Adversarial model outputs (model lies about `risk_level`, empty rollback commands)
-- Unicode and XSS payloads
-- Large payloads (10,000-char titles, 200-item affected services list)
-- Bug regression tests (B1–B4)
 
 ---
 
@@ -588,20 +397,18 @@ The test suite covers:
 | Graph traces | LangSmith | Every node: inputs, outputs, timing, token usage |
 | Agent traces | Logfire | Every LLM call: prompt, response, tool calls, validation |
 | Structured logs | Python `logging` | Every node emits `incident_id`, `node_name`, `timestamp` |
-| Post-mortems | PostgreSQL | Full `PostMortem` records queryable by severity, duration |
+| Post-mortems | PostgreSQL | Full records queryable by severity, duration, outcome |
 
 ---
 
 ## Deployment
 
-### Docker Compose (recommended)
-
 ```yaml
+# docker-compose.yml
 services:
   iras:
     build: .
-    ports:
-      - "8000:8000"
+    ports: ["8000:8000"]
     env_file: .env
     depends_on:
       postgres:
@@ -628,50 +435,37 @@ volumes:
 docker compose up -d
 ```
 
-### Production Checklist
-
-- [ ] Add authentication to `/incidents/{id}/approve` and `/incidents/{id}/reject` (Slack request signing or OAuth)
+**Production checklist:**
+- [ ] Add auth to `/approve` and `/reject` (Slack request signing or OAuth)
 - [ ] Set `APP_ENV=production`
 - [ ] Configure real Slack + PagerDuty tokens
-- [ ] Enable LangSmith and Logfire for production observability
-- [ ] Add a reverse proxy (nginx / Caddy) with TLS
+- [ ] Enable LangSmith + Logfire
+- [ ] Add reverse proxy (nginx / Caddy) with TLS
 - [ ] Set up PgBouncer for Postgres connection pooling
 
 ---
 
 ## Extending IRAS
 
-### Add a new context tool
+**Add a context tool**: Implement a client in `src/iras/tools/` with a `MockXClient` fallback → add to `ContextDeps` → register `@context_agent.tool`.
 
-1. Implement a client in `src/iras/tools/` with a `MockXClient` fallback
-2. Add it to `ContextDeps` in `src/iras/agents/deps.py`
-3. Register the `@context_agent.tool` in `src/iras/agents/context_gathering.py`
-
-### Change the AI model
-
-Each agent instantiates its own `pydantic_ai.Agent`. Switch models per-agent:
+**Swap models per agent**: Each agent instantiates its own `pydantic_ai.Agent`.
 
 ```python
-# Higher accuracy for RCA
-rca_agent = Agent(model="claude-opus-4-5", ...)
-
-# Faster/cheaper triage
-triage_agent = Agent(model="claude-haiku-3-5", ...)
+rca_agent = Agent(model="claude-opus-4-5", ...)    # higher accuracy
+triage_agent = Agent(model="claude-haiku-3-5", ...)  # faster/cheaper
 ```
 
-### Add a new notification backend
-
-Both `escalation_node` and `postmortem_node` accept injectable `deps`. Implement the same `post_message` / `trigger_incident` interface and swap it in.
+**Add a notification backend**: Both `escalation_node` and `postmortem_node` accept injectable deps. Implement `post_message` / `trigger_incident` and swap it in.
 
 ---
 
 ## Contributing
 
 1. Fork and create a feature branch
-2. Make your changes
-3. Run `pytest` — all 292 tests must pass
-4. Keep coverage above 98%: `pytest --cov=src/iras --cov-fail-under=98`
-5. Open a pull request
+2. Run `pytest` — all 292 tests must pass
+3. Keep coverage above 98%: `pytest --cov=src/iras --cov-fail-under=98`
+4. Open a pull request
 
 ---
 
@@ -685,6 +479,8 @@ MIT — see [LICENSE](LICENSE)
 
 Built with [LangGraph](https://langchain-ai.github.io/langgraph/) · [Pydantic AI](https://ai.pydantic.dev) · [FastAPI](https://fastapi.tiangolo.com) · [Claude](https://anthropic.com)
 
-**If IRAS saved your on-call rotation, give it a ⭐**
+<br/>
+
+**If IRAS handled your 3 AM incident, give it a ⭐**
 
 </div>
